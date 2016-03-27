@@ -1,0 +1,14 @@
+# references:
+# * http://www.objc.io/issue-6/travis-ci.html
+# * https://github.com/supermarin/xcpretty#usage
+
+language: objective-c
+# cache: cocoapods
+# podfile: Example/Podfile
+# before_install:
+- gem install scan --no-doc
+- gem install cocoapods --no-doc
+# - pod install --project-directory=Example
+script:
+- set -o pipefail && scan
+- pod lib lint
