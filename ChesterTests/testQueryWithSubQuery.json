@@ -1,0 +1,9 @@
+{
+  posts {
+    id,
+    title,
+    comments {
+      body
+    }
+  }
+}

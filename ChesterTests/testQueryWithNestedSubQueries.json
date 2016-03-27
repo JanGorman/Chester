@@ -1,0 +1,12 @@
+{
+  posts {
+    id,
+    title,
+    comments {
+      body,
+      author {
+        firstname
+      }
+    }
+  }
+}
