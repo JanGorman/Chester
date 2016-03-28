@@ -75,6 +75,7 @@ class ChesterTests: XCTestCase {
   
   func testInvalidQueryThrows() {
     XCTAssertThrowsError(try Query().build())
+    XCTAssertThrowsError(try Query().withFields("id").build())
   }
   
   func testQueryArgs() {
@@ -84,7 +85,16 @@ class ChesterTests: XCTestCase {
       .withFields("id", "title")
       .build()
     
-    print("MA QUERY \(query)")
+    let expectation = try! loadExpectationForTest(#function)
+    
+    XCTAssertEqual(expectation, query)
+  }
+  
+  func testQueryWithMultipleRootFields() {
+    let query = try! Query()
+      .fromCollection("posts", fields: ["id", "title"])
+      .fromCollection("comments", fields: ["body"])
+      .build()
     
     let expectation = try! loadExpectationForTest(#function)
     

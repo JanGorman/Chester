@@ -7,6 +7,7 @@ import Foundation
 public enum QueryError: ErrorType {
   case MissingCollection
   case MissingFields
+  case InvalidState(String)
 }
 
 public struct Argument {
@@ -22,22 +23,30 @@ public struct Argument {
 
 public class Query {
 
-  private var collection: String!
+  private var collections: [String]
   private var arguments: [Argument]
   private var fields: [String]
+  private var collectionFields: [String: [String]]
   private var subQueries: [Query]
   
   public init() {
+    collections = []
     arguments = []
     fields = []
+    collectionFields = [:]
     subQueries = []
   }
-  
+
   /// The collection to query
   ///
   /// - Parameter collection: The collection name
-  public func fromCollection(collection: String) -> Self {
-    self.collection = collection
+  /// - Parameter fields: The fields to query in this collection. Use as an alternative to passing in fields separately
+  ///                     or when querying multiple top level collections.
+  public func fromCollection(collection: String, fields: [String]? = nil) -> Self {
+    collections.append(collection)
+    if let fields = fields {
+      collectionFields[collection] = fields
+    }
     return self
   }
   
@@ -81,18 +90,27 @@ public class Query {
   }
 
   private func build(topLevel topLevel: Bool) throws -> String {
-    guard let collection = collection else { throw QueryError.MissingCollection }
-    guard !fields.isEmpty else { throw QueryError.MissingFields }
+    guard !collections.isEmpty else { throw QueryError.MissingCollection }
+    if fields.isEmpty && collections.count == 1 {
+      throw QueryError.MissingFields
+    } else if !fields.isEmpty && collections.count > 1 {
+      throw QueryError.InvalidState("Querying more than one collection with only one set of fields.")
+    }
     
     var query = topLevel ? "{\n" : ""
-    query += "\(collection)\(buildArguments()) {\n"
-    query += buildFields()
-    if !subQueries.isEmpty {
-      query += try ",\n" + buildSubQueries()
-    } else {
-      query += "\n}"
+    
+    for (i, collection) in collections.enumerate() {
+      query += "\(collection)\(buildArguments()) {\n"
+      query += buildFields(forCollection: collection)
+      if !subQueries.isEmpty {
+        query += try ",\n" + buildSubQueries()
+      } else {
+        query += "\n}"
+      }
+      query += i == collections.count - 1 ? "" : ",\n"
     }
     query += "\n}"
+
     return query
   }
   
@@ -104,7 +122,8 @@ public class Query {
     return args
   }
   
-  private func buildFields() -> String {
+  private func buildFields(forCollection collection: String) -> String {
+    let fields = collectionFields[collection] ?? self.fields
     return fields.joinWithSeparator(",\n")
   }
   
