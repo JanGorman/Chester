@@ -40,9 +40,9 @@ class ChesterTests: XCTestCase {
   }
   
   func testQueryWithSubQuery() {
-    let commentsQuery = Query()
+    let commentsQuery = try! Query()
       .fromCollection("comments")
-      .withField("body")
+      .withFields("body")
     let postsQuery = try! Query()
       .fromCollection("posts")
       .withFields("id", "title")
@@ -55,12 +55,12 @@ class ChesterTests: XCTestCase {
   }
   
   func testQueryWithNestedSubQueries() {
-    let authorQuery = Query()
+    let authorQuery = try! Query()
       .fromCollection("author")
-      .withField("firstname")
-    let commentsQuery = Query()
+      .withFields("firstname")
+    let commentsQuery = try! Query()
       .fromCollection("comments")
-      .withField("body")
+      .withFields("body")
       .withSubQuery(authorQuery)
     let postsQuery = try! Query()
       .fromCollection("posts")
@@ -80,8 +80,8 @@ class ChesterTests: XCTestCase {
   
   func testQueryArgs() {
     let query = try! Query()
-      .withArguments(Argument(key: "id", value: 4), Argument(key: "author", value: "Chester"))
       .fromCollection("posts")
+      .withArguments(Argument(key: "id", value: 4), Argument(key: "author", value: "Chester"))
       .withFields("id", "title")
       .build()
     
@@ -94,6 +94,18 @@ class ChesterTests: XCTestCase {
     let query = try! Query()
       .fromCollection("posts", fields: ["id", "title"])
       .fromCollection("comments", fields: ["body"])
+      .build()
+    
+    let expectation = try! loadExpectationForTest(#function)
+    
+    XCTAssertEqual(expectation, query)
+  }
+  
+  func testQueryWithMultipleRootFieldsAndArgs() {
+    let query = try! Query()
+      .fromCollection("posts", fields: ["id", "title"], arguments: [Argument(key: "id", value: 5)])
+      .fromCollection("comments", fields: ["body"], arguments: [Argument(key: "author", value: "Chester"),
+                                                                Argument(key: "limit", value: 10)])
       .build()
     
     let expectation = try! loadExpectationForTest(#function)
