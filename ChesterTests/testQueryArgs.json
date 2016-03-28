@@ -1,0 +1,6 @@
+{
+  posts(id: 4, author: Chester) {
+    id,
+    title
+  }
+}

@@ -17,6 +17,7 @@ import Chester
 
 let query = Query()
 	.fromCollection("posts")
+	.withArguments(Argument(key: "id", value: "20"), Argument(key: "author", value: "Chester"))
 	.withFields("id", "title", "content")
 
 // For cases with dynamic input, probably best to use a do-catch:
@@ -27,7 +28,7 @@ do {
 	// Can specify which errors to catch
 }
 
-// For fixed queries more readable
+// Or if your sure of your query
 
 guard let queryString = try? query.build else { return }
 

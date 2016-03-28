@@ -21,7 +21,7 @@ class ChesterTests: XCTestCase {
               contents = try? String(contentsOfURL: url) else {
       throw Error.InvalidResource
     }
-    return contents.stringByReplacingOccurrencesOfString(" ", withString: "")
+    return contents.stringByReplacingOccurrencesOfString("  ", withString: "")
   }
   
   private func testNameByRemovingParentheses(test: String) -> String {
@@ -75,6 +75,20 @@ class ChesterTests: XCTestCase {
   
   func testInvalidQueryThrows() {
     XCTAssertThrowsError(try Query().build())
+  }
+  
+  func testQueryArgs() {
+    let query = try! Query()
+      .withArguments(Argument(key: "id", value: 4), Argument(key: "author", value: "Chester"))
+      .fromCollection("posts")
+      .withFields("id", "title")
+      .build()
+    
+    print("MA QUERY \(query)")
+    
+    let expectation = try! loadExpectationForTest(#function)
+    
+    XCTAssertEqual(expectation, query)
   }
   
 }

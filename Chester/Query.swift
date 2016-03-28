@@ -9,15 +9,28 @@ public enum QueryError: ErrorType {
   case MissingFields
 }
 
+public struct Argument {
+
+  let key: String
+  let value: AnyObject
+  
+  func build() -> String {
+    return "\(key): \(value)"
+  }
+
+}
+
 public class Query {
 
   private var collection: String!
+  private var arguments: [Argument]
   private var fields: [String]
   private var subQueries: [Query]
   
   public init() {
-    fields = [String]()
-    subQueries = [Query]()
+    arguments = []
+    fields = []
+    subQueries = []
   }
   
   /// The collection to query
@@ -28,7 +41,11 @@ public class Query {
     return self
   }
   
-  public func withArgs() -> Self {
+  /// Query arguments
+  ///
+  /// - Parameter arguments: The query args struct(s)
+  public func withArguments(arguments: Argument...) -> Self {
+    self.arguments.appendContentsOf(arguments)
     return self
   }
   
@@ -68,7 +85,7 @@ public class Query {
     guard !fields.isEmpty else { throw QueryError.MissingFields }
     
     var query = topLevel ? "{\n" : ""
-    query += "\(collection){\n"
+    query += "\(collection)\(buildArguments()) {\n"
     query += buildFields()
     if !subQueries.isEmpty {
       query += try ",\n" + buildSubQueries()
@@ -77,6 +94,14 @@ public class Query {
     }
     query += "\n}"
     return query
+  }
+  
+  private func buildArguments() -> String {
+    guard !arguments.isEmpty else { return "" }
+    var args = "("
+    args += arguments.map{ $0.build() }.joinWithSeparator(", ")
+    args += ")"
+    return args
   }
   
   private func buildFields() -> String {
