@@ -7,6 +7,7 @@ import Foundation
 public enum QueryError: ErrorType {
   case MissingCollection
   case MissingFields
+  case MissingArguments
   case InvalidState(String)
 }
 
@@ -94,24 +95,9 @@ public class Query {
 
   private func build(topLevel topLevel: Bool) throws -> String {
     try validateQuery()
-    
-    var query = topLevel ? "{\n" : ""
-    
-    for (i, collection) in collections.enumerate() {
-      query += "\(collection)\(buildArguments(forCollection: collection)) {\n"
-      query += try buildFields(forCollection: collection)
-      if !subQueries.isEmpty {
-        query += try ",\n" + buildSubQueries()
-      } else {
-        query += "\n}"
-      }
-      query += joinCollections(i)
-    }
-    query += "\n}"
-
-    return query
+    return try QueryBuilder(query: self).build(topLevel: topLevel)
   }
-  
+
   private func validateQuery() throws {
     if collections.isEmpty {
       throw QueryError.MissingCollection
@@ -124,14 +110,43 @@ public class Query {
     }
   }
 
-  private func joinCollections(current: Int) -> String {
-    return current == collections.count - 1 ? "" : ",\n"
-  }
+}
 
-  private func buildArguments(forCollection collection: String) -> String {
-    guard let arguments = arguments[collection] else {
+private class QueryBuilder {
+  
+  private let query: Query
+  
+  init(query: Query) {
+    self.query = query
+  }
+  
+  private func build(topLevel topLevel: Bool) throws -> String {
+    var queryString = topLevel ? "{\n" : ""
+    
+    for (i, collection) in query.collections.enumerate() {
+      queryString += "\(collection)\(try buildArguments(forCollection: collection)) {\n"
+      queryString += try buildFields(forCollection: collection)
+      if !query.subQueries.isEmpty {
+        queryString += try ",\n" + buildSubQueries()
+      } else {
+        queryString += "\n}"
+      }
+      queryString += joinCollections(i)
+    }
+    queryString += "\n}"
+    
+    return queryString
+  }
+  
+  private func joinCollections(current: Int) -> String {
+    return current == query.collections.count - 1 ? "" : ",\n"
+  }
+  
+  private func buildArguments(forCollection collection: String) throws -> String {
+    guard let arguments = query.arguments[collection] else {
       return ""
     }
+    guard !arguments.isEmpty else { throw QueryError.MissingArguments }
     var args = "("
     args += arguments.flatMap{ $0.build() }.joinWithSeparator(", ")
     args += ")"
@@ -139,12 +154,16 @@ public class Query {
   }
   
   private func buildFields(forCollection collection: String) throws -> String {
-    guard let fields = self.fields[collection] else { throw QueryError.MissingFields }
+    guard let fields = query.fields[collection] else { throw QueryError.MissingFields }
+    guard !fields.isEmpty else { throw QueryError.MissingFields }
     return fields.joinWithSeparator(",\n")
   }
   
   private func buildSubQueries() throws -> String {
-    return try subQueries.map{ try $0.build(topLevel: false) }.joinWithSeparator(",\n")
+    return try query.subQueries.map{ try $0.build(topLevel: false) }.joinWithSeparator(",\n")
   }
 
 }
+
+
+
