@@ -4,7 +4,7 @@ before_install:
 - gem install scan --no-doc
 # - gem install cocoapods --no-doc
 script:
-- set -o pipefail && scan --code_coverage true
+- set -o pipefail && scan --code_coverage true --device "iPhone 6"
 - pod lib lint
 after_success:
 - bash <(curl -s https://codecov.io/bash)
