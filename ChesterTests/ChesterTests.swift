@@ -113,4 +113,19 @@ class ChesterTests: XCTestCase {
     XCTAssertEqual(expectation, query)
   }
   
+  func testQueryWithMultipleRootAndSubQueries() {
+    let avatarQuery = try! Query()
+      .fromCollection("avatars")
+      .withArguments(Argument(key: "width", value: 100))
+      .withFields("url")
+    let query = try! Query()
+      .fromCollection("posts", fields: ["id"], subQueries: [avatarQuery])
+      .fromCollection("comments", fields: ["body"])
+      .build()
+
+    let expectation = try! loadExpectationForTest(#function)
+
+    XCTAssertEqual(expectation, query)
+  }
+  
 }

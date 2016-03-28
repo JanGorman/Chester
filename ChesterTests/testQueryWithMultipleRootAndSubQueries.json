@@ -1,0 +1,11 @@
+{
+  posts {
+    id,
+    avatars(width: 100) {
+      url
+    }
+  },
+  comments {
+    body
+  }
+}

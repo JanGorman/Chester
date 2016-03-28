@@ -10,6 +10,7 @@
 		94A76AAC1CA958E00098F2A9 /* testQueryArgs.json in Resources */ = {isa = PBXBuildFile; fileRef = 94A76AAB1CA958E00098F2A9 /* testQueryArgs.json */; };
 		94A76AAF1CA98BD80098F2A9 /* testQueryWithMultipleRootFields.json in Resources */ = {isa = PBXBuildFile; fileRef = 94A76AAE1CA98BD80098F2A9 /* testQueryWithMultipleRootFields.json */; };
 		94A76AB11CA9971A0098F2A9 /* testQueryWithMultipleRootFieldsAndArgs.json in Resources */ = {isa = PBXBuildFile; fileRef = 94A76AB01CA9971A0098F2A9 /* testQueryWithMultipleRootFieldsAndArgs.json */; };
+		94A76AB31CA99B9B0098F2A9 /* testQueryWithMultipleRootAndSubQueries.json in Resources */ = {isa = PBXBuildFile; fileRef = 94A76AB21CA99B9B0098F2A9 /* testQueryWithMultipleRootAndSubQueries.json */; };
 		94AE4D571CA81B250079DD8D /* Chester.h in Headers */ = {isa = PBXBuildFile; fileRef = 94AE4D561CA81B250079DD8D /* Chester.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		94AE4D5E1CA81B250079DD8D /* Chester.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94AE4D531CA81B250079DD8D /* Chester.framework */; };
 		94AE4D631CA81B250079DD8D /* ChesterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94AE4D621CA81B250079DD8D /* ChesterTests.swift */; };
@@ -33,6 +34,7 @@
 		94A76AAB1CA958E00098F2A9 /* testQueryArgs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryArgs.json; sourceTree = "<group>"; };
 		94A76AAE1CA98BD80098F2A9 /* testQueryWithMultipleRootFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryWithMultipleRootFields.json; sourceTree = "<group>"; };
 		94A76AB01CA9971A0098F2A9 /* testQueryWithMultipleRootFieldsAndArgs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryWithMultipleRootFieldsAndArgs.json; sourceTree = "<group>"; };
+		94A76AB21CA99B9B0098F2A9 /* testQueryWithMultipleRootAndSubQueries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryWithMultipleRootAndSubQueries.json; sourceTree = "<group>"; };
 		94AE4D531CA81B250079DD8D /* Chester.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Chester.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		94AE4D561CA81B250079DD8D /* Chester.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Chester.h; sourceTree = "<group>"; };
 		94AE4D581CA81B250079DD8D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				94A76AAB1CA958E00098F2A9 /* testQueryArgs.json */,
 				94A76AAE1CA98BD80098F2A9 /* testQueryWithMultipleRootFields.json */,
 				94A76AB01CA9971A0098F2A9 /* testQueryWithMultipleRootFieldsAndArgs.json */,
+				94A76AB21CA99B9B0098F2A9 /* testQueryWithMultipleRootAndSubQueries.json */,
 			);
 			path = ChesterTests;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94A76AB31CA99B9B0098F2A9 /* testQueryWithMultipleRootAndSubQueries.json in Resources */,
 				94AE4D741CA82ACD0079DD8D /* testQueryWithNestedSubQueries.json in Resources */,
 				94A76AAC1CA958E00098F2A9 /* testQueryArgs.json in Resources */,
 				94A76AB11CA9971A0098F2A9 /* testQueryWithMultipleRootFieldsAndArgs.json in Resources */,
