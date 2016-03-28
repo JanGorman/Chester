@@ -1,7 +1,7 @@
 language: objective-c
 before_install:
 - gem install scan --no-doc
-- gem install cocoapods --no-doc
+# - gem install cocoapods --no-doc
 script:
 - set -o pipefail && scan --code_coverage true
 - pod lib lint
