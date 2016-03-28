@@ -28,7 +28,7 @@ do {
 	// Can specify which errors to catch
 }
 
-// Or if your sure of your query
+// Or if you're sure of your query
 
 guard let queryString = try? query.build else { return }
 
