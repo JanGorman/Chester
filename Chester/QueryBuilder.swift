@@ -22,12 +22,12 @@ public struct Argument {
 
 }
 
-public class Query {
+public class QueryBuilder {
 
   private var collections: [String]
   private var arguments: [String: [Argument]]
   private var fields: [String: [String]]
-  private var subQueries: [String: [Query]]
+  private var subQueries: [String: [QueryBuilder]]
   
   public init() {
     collections = []
@@ -44,7 +44,7 @@ public class Query {
   /// - Parameter arguments: The arguments to limit this collection.
   /// - Parameter subQueries for this collection.
   public func fromCollection(collection: String, fields: [String]? = nil, arguments: [Argument]? = nil,
-                             subQueries: [Query]? = nil) -> Self {
+                             subQueries: [QueryBuilder]? = nil) -> Self {
     collections.append(collection)
     if let fields = fields {
       self.fields[collection] = fields
@@ -82,7 +82,7 @@ public class Query {
   ///
   /// - Parameter query: The subquery
   /// - Throws: `MissingCollection` if no collection is defined before passing in a subquery
-  public func withSubQuery(query: Query) throws -> Self {
+  public func withSubQuery(query: QueryBuilder) throws -> Self {
     guard collections.count == 1 else { throw QueryError.MissingCollection }
     if subQueries[collections.first!] == nil {
       subQueries[collections.first!] = []
@@ -101,7 +101,7 @@ public class Query {
 
   private func build(topLevel topLevel: Bool) throws -> String {
     try validateQuery()
-    return try QueryBuilder(query: self).build(topLevel: topLevel)
+    return try QueryStringBuilder(query: self).build(topLevel: topLevel)
   }
 
   private func validateQuery() throws {
@@ -118,11 +118,11 @@ public class Query {
 
 }
 
-private class QueryBuilder {
+private class QueryStringBuilder {
   
-  private let query: Query
+  private let query: QueryBuilder
   
-  init(query: Query) {
+  init(query: QueryBuilder) {
     self.query = query
   }
   

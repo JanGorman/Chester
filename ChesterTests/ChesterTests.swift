@@ -29,7 +29,7 @@ class ChesterTests: XCTestCase {
   }
   
   func testQueryWithFields() {
-    let query = try! Query()
+    let query = try! QueryBuilder()
       .fromCollection("posts")
       .withFields("id", "title")
       .build()
@@ -40,10 +40,10 @@ class ChesterTests: XCTestCase {
   }
   
   func testQueryWithSubQuery() {
-    let commentsQuery = try! Query()
+    let commentsQuery = try! QueryBuilder()
       .fromCollection("comments")
       .withFields("body")
-    let postsQuery = try! Query()
+    let postsQuery = try! QueryBuilder()
       .fromCollection("posts")
       .withFields("id", "title")
       .withSubQuery(commentsQuery)
@@ -55,14 +55,14 @@ class ChesterTests: XCTestCase {
   }
   
   func testQueryWithNestedSubQueries() {
-    let authorQuery = try! Query()
+    let authorQuery = try! QueryBuilder()
       .fromCollection("author")
       .withFields("firstname")
-    let commentsQuery = try! Query()
+    let commentsQuery = try! QueryBuilder()
       .fromCollection("comments")
       .withFields("body")
       .withSubQuery(authorQuery)
-    let postsQuery = try! Query()
+    let postsQuery = try! QueryBuilder()
       .fromCollection("posts")
       .withFields("id", "title")
       .withSubQuery(commentsQuery)
@@ -74,12 +74,12 @@ class ChesterTests: XCTestCase {
   }
   
   func testInvalidQueryThrows() {
-    XCTAssertThrowsError(try Query().build())
-    XCTAssertThrowsError(try Query().withFields("id").build())
+    XCTAssertThrowsError(try QueryBuilder().build())
+    XCTAssertThrowsError(try QueryBuilder().withFields("id").build())
   }
   
   func testQueryArgs() {
-    let query = try! Query()
+    let query = try! QueryBuilder()
       .fromCollection("posts")
       .withArguments(Argument(key: "id", value: 4), Argument(key: "author", value: "Chester"))
       .withFields("id", "title")
@@ -91,7 +91,7 @@ class ChesterTests: XCTestCase {
   }
   
   func testQueryWithMultipleRootFields() {
-    let query = try! Query()
+    let query = try! QueryBuilder()
       .fromCollection("posts", fields: ["id", "title"])
       .fromCollection("comments", fields: ["body"])
       .build()
@@ -102,7 +102,7 @@ class ChesterTests: XCTestCase {
   }
   
   func testQueryWithMultipleRootFieldsAndArgs() {
-    let query = try! Query()
+    let query = try! QueryBuilder()
       .fromCollection("posts", fields: ["id", "title"], arguments: [Argument(key: "id", value: 5)])
       .fromCollection("comments", fields: ["body"], arguments: [Argument(key: "author", value: "Chester"),
                                                                 Argument(key: "limit", value: 10)])
@@ -114,11 +114,11 @@ class ChesterTests: XCTestCase {
   }
   
   func testQueryWithMultipleRootAndSubQueries() {
-    let avatarQuery = try! Query()
+    let avatarQuery = try! QueryBuilder()
       .fromCollection("avatars")
       .withArguments(Argument(key: "width", value: 100))
       .withFields("url")
-    let query = try! Query()
+    let query = try! QueryBuilder()
       .fromCollection("posts", fields: ["id"], subQueries: [avatarQuery])
       .fromCollection("comments", fields: ["body"])
       .build()

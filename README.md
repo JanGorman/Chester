@@ -15,7 +15,7 @@ Chester uses the builder pattern to construct GraphQL queries. In it's basic for
 ```swift
 import Chester
 
-let query = Query()
+let query = QueryBuilder()
 	.fromCollection("posts")
 	.withArguments(Argument(key: "id", value: "20"), Argument(key: "author", value: "Chester"))
 	.withFields("id", "title", "content")
@@ -37,10 +37,10 @@ guard let queryString = try? query.build else { return }
 You can add subqueries. Add as many as needed. You can nest them as well.
 ```swift
 
-let commentsQuery = Query()
+let commentsQuery = QueryBuilder()
 	.fromCollection("comments")
 	.withFields("id", content)
-let postsQuery = Query()
+let postsQuery = QueryBuilder()
 	.fromCollection("posts")
 	.withFields("id", "title")
 	.withSubQuery(commentsQuery)
