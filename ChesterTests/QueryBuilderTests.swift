@@ -7,16 +7,10 @@ import XCTest
 
 class QueryBuilderTests: XCTestCase {
 
-  enum Error: ErrorType {
-    case InvalidResource
-  }
-
-  private func loadExpectationForTest(test: String) throws -> String {
+  private func loadExpectationForTest(test: String) -> String {
     let resource = testNameByRemovingParentheses(test)
-    guard let url = NSBundle(forClass: self.dynamicType).URLForResource(resource, withExtension: "json"),
-              contents = try? String(contentsOfURL: url) else {
-      throw Error.InvalidResource
-    }
+    let url = NSBundle(forClass: self.dynamicType).URLForResource(resource, withExtension: "json")!
+    let contents = try! String(contentsOfURL: url)
     return contents
   }
 
@@ -30,7 +24,7 @@ class QueryBuilderTests: XCTestCase {
       .withFields("id", "title")
       .build()
     
-    let expectation = try! loadExpectationForTest(#function)
+    let expectation = loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }
@@ -45,7 +39,7 @@ class QueryBuilderTests: XCTestCase {
       .withSubQuery(commentsQuery)
       .build()
     
-    let expectation = try! loadExpectationForTest(#function)
+    let expectation = loadExpectationForTest(#function)
     
     
     print(expectation)
@@ -69,7 +63,7 @@ class QueryBuilderTests: XCTestCase {
       .withSubQuery(commentsQuery)
       .build()
     
-    let expectation = try! loadExpectationForTest(#function)
+    let expectation = loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, postsQuery)
   }
@@ -91,7 +85,7 @@ class QueryBuilderTests: XCTestCase {
       .withFields("id", "title")
       .build()
     
-    let expectation = try! loadExpectationForTest(#function)
+    let expectation = loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }
@@ -102,7 +96,7 @@ class QueryBuilderTests: XCTestCase {
       .fromCollection("comments", fields: ["body"])
       .build()
     
-    let expectation = try! loadExpectationForTest(#function)
+    let expectation = loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }
@@ -114,7 +108,7 @@ class QueryBuilderTests: XCTestCase {
                                                                 Argument(key: "limit", value: 10)])
       .build()
     
-    let expectation = try! loadExpectationForTest(#function)
+    let expectation = loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }
@@ -129,7 +123,7 @@ class QueryBuilderTests: XCTestCase {
       .fromCollection("comments", fields: ["body"])
       .build()
 
-    let expectation = try! loadExpectationForTest(#function)
+    let expectation = loadExpectationForTest(#function)
 
     XCTAssertEqual(expectation, query)
   }
