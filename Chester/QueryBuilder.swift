@@ -24,16 +24,10 @@ public struct Argument {
 
 public class QueryBuilder {
 
-  private var collections: [String]
-  private var arguments: [String: [Argument]]
-  private var fields: [String: [String]]
-  private var subQueries: [String: [QueryBuilder]]
+  private var queries: [Query]
   
   public init() {
-    collections = []
-    arguments = [:]
-    fields = [:]
-    subQueries = [:]
+    queries = []
   }
 
   /// The collection to query
@@ -42,19 +36,20 @@ public class QueryBuilder {
   /// - Parameter fields: The fields to query in this collection. Use as an alternative to passing in fields separately
   ///                     or when querying multiple top level collections.
   /// - Parameter arguments: The arguments to limit this collection.
-  /// - Parameter subQueries for this collection.
+  /// - Parameter subQueries: for this collection.
   public func fromCollection(collection: String, fields: [String]? = nil, arguments: [Argument]? = nil,
                              subQueries: [QueryBuilder]? = nil) -> Self {
-    collections.append(collection)
+    var query = Query(collection: collection)
     if let fields = fields {
-      self.fields[collection] = fields
+      query.withFields(fields)
     }
     if let arguments = arguments {
-      self.arguments[collection] = arguments
+      query.withArguments(arguments)
     }
     if let subQueries = subQueries {
-      self.subQueries[collection] = subQueries
+      query.withSubQueries(subQueries.flatMap{ $0.queries })
     }
+    self.queries.append(query)
     return self
   }
   
@@ -63,8 +58,8 @@ public class QueryBuilder {
   /// - Parameter arguments: The query args struct(s)
   /// - Throws: `MissingCollection` if no collection is defined before passing in arguments
   public func withArguments(arguments: Argument...) throws -> Self {
-    guard collections.count == 1 else { throw QueryError.MissingCollection }
-    self.arguments[collections.first!] = arguments
+    guard let _ = queries.first else { throw QueryError.MissingCollection }
+    self.queries[0].withArguments(arguments)
     return self
   }
   
@@ -73,8 +68,8 @@ public class QueryBuilder {
   /// - Parameter fields: The field names
   /// - Throws: `MissingCollection` if no collection is defined before passing in fields
   public func withFields(fields: String...) throws -> Self {
-    guard collections.count == 1 else { throw QueryError.MissingCollection }
-    self.fields[collections.first!] = fields
+    guard let _ = queries.first else { throw QueryError.MissingCollection }
+    self.queries[0].withFields(fields)
     return self
   }
   
@@ -83,11 +78,8 @@ public class QueryBuilder {
   /// - Parameter query: The subquery
   /// - Throws: `MissingCollection` if no collection is defined before passing in a subquery
   public func withSubQuery(query: QueryBuilder) throws -> Self {
-    guard collections.count == 1 else { throw QueryError.MissingCollection }
-    if subQueries[collections.first!] == nil {
-      subQueries[collections.first!] = []
-    }
-    subQueries[collections.first!]?.append(query)
+    guard !queries.isEmpty else { throw QueryError.MissingCollection }
+    queries[0].withSubQueries(query.queries)
     return self
   }
   
@@ -96,83 +88,51 @@ public class QueryBuilder {
   /// - Returns: The constructed query as String
   /// - Throws: Throws `QueryError` if the builder is in an invalid state before calling `build()` 
   public func build() throws -> String {
-    return try build(topLevel: true)
-  }
-
-  private func build(topLevel topLevel: Bool) throws -> String {
     try validateQuery()
-    return try QueryStringBuilder(query: self).build(topLevel: topLevel)
+    return try QueryStringBuilder(self).build()
   }
 
   private func validateQuery() throws {
-    if collections.isEmpty {
+    if queries.isEmpty {
       throw QueryError.MissingCollection
-    } else  if fields.isEmpty && collections.count == 1 {
-      throw QueryError.MissingFields
-    } else if fields.count != collections.count {
-      throw QueryError.InvalidState("Querying more than one collection with only one set of fields.")
-    } else if !arguments.isEmpty && arguments.count != collections.count {
-      throw QueryError.InvalidState("Querying more than one collection with only one set of arguments.")
     }
+    try queries.forEach { try $0.validate() }
   }
 
 }
 
 private class QueryStringBuilder {
   
-  private let query: QueryBuilder
+  private let queryBuilder: QueryBuilder
   
-  init(query: QueryBuilder) {
-    self.query = query
+  init(_ queryBuilder: QueryBuilder) {
+    self.queryBuilder = queryBuilder
   }
   
-  private func build(topLevel topLevel: Bool) throws -> String {
-    var queryString = topLevel ? "{\n" : ""
-    
-    for (i, collection) in query.collections.enumerate() {
-      queryString += "\(collection)\(try buildArguments(forCollection: collection)) {\n"
-      queryString += try buildFields(forCollection: collection)
-      if query.subQueries[collection] != nil {
-        queryString += try ",\n" + buildSubQueries(forCollection: collection)
-      } else {
-        queryString += "\n}"
-      }
+  private func build() throws -> String {
+    var queryString = "{\n"
+    for (i, query) in queryBuilder.queries.enumerate() {
+      queryString += try query.build()
       queryString += joinCollections(i)
     }
     queryString += "\n}"
-    
     return queryString
   }
   
   private func joinCollections(current: Int) -> String {
-    return current == query.collections.count - 1 ? "" : ",\n"
-  }
-  
-  private func buildArguments(forCollection collection: String) throws -> String {
-    guard let arguments = query.arguments[collection] else {
-      return ""
-    }
-    guard !arguments.isEmpty else { throw QueryError.MissingArguments }
-    var args = "("
-    args += arguments.flatMap{ $0.build() }.joinWithSeparator(", ")
-    args += ")"
-    return args
-  }
-  
-  private func buildFields(forCollection collection: String) throws -> String {
-    guard let fields = query.fields[collection] else { throw QueryError.MissingFields }
-    guard !fields.isEmpty else { throw QueryError.MissingFields }
-    return fields.joinWithSeparator(",\n")
-  }
-  
-  private func buildSubQueries(forCollection collection: String) throws -> String {
-    if let subQueries = query.subQueries[collection] {
-      return try subQueries.map{ try $0.build(topLevel: false) }.joinWithSeparator(",\n")
-    }
-    return ""
+    return current == queryBuilder.queries.count - 1 ? "" : ",\n"
   }
 
 }
 
-
-
+extension String {
+  
+  func times(times: Int) -> String {
+    var result = ""
+    for _ in 0..<times {
+      result += self
+    }
+    return result
+  }
+  
+}

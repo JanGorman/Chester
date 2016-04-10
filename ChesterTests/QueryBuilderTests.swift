@@ -5,29 +5,25 @@
 import XCTest
 @testable import Chester
 
-class ChesterTests: XCTestCase {
-  
+class QueryBuilderTests: XCTestCase {
+
   enum Error: ErrorType {
     case InvalidResource
   }
-    
-  override func setUp() {
-    super.setUp()
-  }
-  
+
   private func loadExpectationForTest(test: String) throws -> String {
-    guard let url = NSBundle(forClass: self.dynamicType).URLForResource(testNameByRemovingParentheses(test),
-                                                                        withExtension: "json"),
+    let resource = testNameByRemovingParentheses(test)
+    guard let url = NSBundle(forClass: self.dynamicType).URLForResource(resource, withExtension: "json"),
               contents = try? String(contentsOfURL: url) else {
       throw Error.InvalidResource
     }
-    return contents.stringByReplacingOccurrencesOfString("  ", withString: "")
+    return contents
   }
-  
+
   private func testNameByRemovingParentheses(test: String) -> String {
     return test.substringToIndex(test.endIndex.advancedBy(-2))
   }
-  
+
   func testQueryWithFields() {
     let query = try! QueryBuilder()
       .fromCollection("posts")
@@ -38,7 +34,7 @@ class ChesterTests: XCTestCase {
     
     XCTAssertEqual(expectation, query)
   }
-  
+
   func testQueryWithSubQuery() {
     let commentsQuery = try! QueryBuilder()
       .fromCollection("comments")
@@ -50,6 +46,11 @@ class ChesterTests: XCTestCase {
       .build()
     
     let expectation = try! loadExpectationForTest(#function)
+    
+    
+    print(expectation)
+    print(":::")
+    print(postsQuery)
     
     XCTAssertEqual(expectation, postsQuery)
   }
@@ -76,6 +77,11 @@ class ChesterTests: XCTestCase {
   func testInvalidQueryThrows() {
     XCTAssertThrowsError(try QueryBuilder().build())
     XCTAssertThrowsError(try QueryBuilder().withFields("id").build())
+    XCTAssertThrowsError(try QueryBuilder().fromCollection("foo").build())
+    XCTAssertThrowsError(try QueryBuilder().withArguments(Argument(key: "key", value: "value")).build())
+    
+    let subQuery = try! QueryBuilder().fromCollection("foo").withFields("foo")
+    XCTAssertThrowsError(try QueryBuilder().withSubQuery(subQuery))
   }
   
   func testQueryArgs() {
