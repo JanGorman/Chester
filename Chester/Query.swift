@@ -20,25 +20,25 @@ internal struct Query {
     subQueries = []
   }
 
-  mutating func withArguments(arguments: [Argument]) {
-    self.arguments.appendContentsOf(arguments)
+  mutating func withArguments(_ arguments: [Argument]) {
+    self.arguments.append(contentsOf: arguments)
   }
 
-  mutating func withFields(fields: [String]) {
-    self.fields.appendContentsOf(fields)
+  mutating func withFields(_ fields: [String]) {
+    self.fields.append(contentsOf: fields)
   }
 
-  mutating func withSubQueries(queries: [Query]) {
-    self.subQueries.appendContentsOf(queries)
+  mutating func withSubQueries(_ queries: [Query]) {
+    self.subQueries.append(contentsOf: queries)
   }
   
   func validate() throws {
     if fields.isEmpty {
-      throw QueryError.MissingFields
+      throw QueryError.missingFields
     }
   }
 
-  func build(indent: Int = Query.Indent) throws -> String {
+  func build(_ indent: Int = Query.Indent) throws -> String {
     var query = "\(" ".times(indent))\(collection)\(buildArguments()) {\n"
     query += try buildFields(indent + Query.Indent)
     if !subQueries.isEmpty {
@@ -54,15 +54,15 @@ internal struct Query {
     if arguments.isEmpty {
       return ""
     }
-    return "(" + arguments.flatMap{ $0.build() }.joinWithSeparator(", ") + ")"
+    return "(" + arguments.flatMap{ $0.build() }.joined(separator: ", ") + ")"
   }
   
-  private func buildFields(indent: Int ) throws -> String {
-    return fields.map{ " ".times(indent) + $0 }.joinWithSeparator(",\n")
+  private func buildFields(_ indent: Int ) throws -> String {
+    return fields.map{ " ".times(indent) + $0 }.joined(separator: ",\n")
   }
 
-  private func buildSubQueries(indent: Int) throws -> String {
-    return try subQueries.map{ try $0.build(indent) }.joinWithSeparator(",\n")
+  private func buildSubQueries(_ indent: Int) throws -> String {
+    return try subQueries.map{ try $0.build(indent) }.joined(separator: ",\n")
   }
 
 }

@@ -7,15 +7,15 @@ import XCTest
 
 class QueryBuilderTests: XCTestCase {
 
-  private func loadExpectationForTest(test: String) -> String {
+  private func loadExpectationForTest(_ test: String) -> String {
     let resource = testNameByRemovingParentheses(test)
-    let url = NSBundle(forClass: self.dynamicType).URLForResource(resource, withExtension: "json")!
-    let contents = try! String(contentsOfURL: url)
+    let url = Bundle(for: self.dynamicType).urlForResource(resource, withExtension: "json")!
+    let contents = try! String(contentsOf: url)
     return contents
   }
 
-  private func testNameByRemovingParentheses(test: String) -> String {
-    return test.substringToIndex(test.endIndex.advancedBy(-2))
+  private func testNameByRemovingParentheses(_ test: String) -> String {
+    return test.substring(to: test.characters.index(test.endIndex, offsetBy: -2))
   }
 
   func testQueryWithFields() {
