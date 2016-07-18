@@ -11,7 +11,7 @@ Note that Chester is work in progress and it's functionality is still very limit
 
 ## Usage
 
-Chester uses the builder pattern to construct GraphQL queries. In it's basic form use it like this:
+Chester uses the builder pattern to construct GraphQL queries. In its basic form use it like this:
 ```swift
 import Chester
 
