@@ -4,7 +4,7 @@
 
 import Foundation
 
-public enum QueryError: ErrorProtocol {
+public enum QueryError: Error {
   case missingCollection
   case missingFields
   case missingArguments
@@ -14,7 +14,7 @@ public enum QueryError: ErrorProtocol {
 public struct Argument {
 
   let key: String
-  let value: AnyObject
+  let value: Any
   
   func build() -> String {
     return "\(key): \(value)"
@@ -22,9 +22,9 @@ public struct Argument {
 
 }
 
-public class QueryBuilder {
+final class QueryBuilder {
 
-  private var queries: [Query]
+  fileprivate var queries: [Query]
   
   public init() {
     queries = []
@@ -37,7 +37,7 @@ public class QueryBuilder {
   ///                     or when querying multiple top level collections.
   /// - Parameter arguments: The arguments to limit this collection.
   /// - Parameter subQueries: for this collection.
-  public func fromCollection(_ collection: String, fields: [String]? = nil, arguments: [Argument]? = nil,
+  open func fromCollection(_ collection: String, fields: [String]? = nil, arguments: [Argument]? = nil,
                              subQueries: [QueryBuilder]? = nil) -> Self {
     var query = Query(collection: collection)
     if let fields = fields {
@@ -57,7 +57,7 @@ public class QueryBuilder {
   ///
   /// - Parameter arguments: The query args struct(s)
   /// - Throws: `MissingCollection` if no collection is defined before passing in arguments
-  public func withArguments(_ arguments: Argument...) throws -> Self {
+  open func withArguments(_ arguments: Argument...) throws -> Self {
     guard let _ = queries.first else { throw QueryError.missingCollection }
     self.queries[0].withArguments(arguments)
     return self
@@ -67,7 +67,7 @@ public class QueryBuilder {
   ///
   /// - Parameter fields: The field names
   /// - Throws: `MissingCollection` if no collection is defined before passing in fields
-  public func withFields(_ fields: String...) throws -> Self {
+  open func withFields(_ fields: String...) throws -> Self {
     guard let _ = queries.first else { throw QueryError.missingCollection }
     self.queries[0].withFields(fields)
     return self
@@ -77,7 +77,7 @@ public class QueryBuilder {
   ///
   /// - Parameter query: The subquery
   /// - Throws: `MissingCollection` if no collection is defined before passing in a subquery
-  public func withSubQuery(_ query: QueryBuilder) throws -> Self {
+  open func withSubQuery(_ query: QueryBuilder) throws -> Self {
     guard !queries.isEmpty else { throw QueryError.missingCollection }
     queries[0].withSubQueries(query.queries)
     return self
@@ -87,12 +87,12 @@ public class QueryBuilder {
   ///
   /// - Returns: The constructed query as String
   /// - Throws: Throws `QueryError` if the builder is in an invalid state before calling `build()` 
-  public func build() throws -> String {
+  open func build() throws -> String {
     try validateQuery()
     return try QueryStringBuilder(self).build()
   }
 
-  private func validateQuery() throws {
+  fileprivate func validateQuery() throws {
     if queries.isEmpty {
       throw QueryError.missingCollection
     }
@@ -103,13 +103,13 @@ public class QueryBuilder {
 
 private class QueryStringBuilder {
   
-  private let queryBuilder: QueryBuilder
+  fileprivate let queryBuilder: QueryBuilder
   
   init(_ queryBuilder: QueryBuilder) {
     self.queryBuilder = queryBuilder
   }
   
-  private func build() throws -> String {
+  fileprivate func build() throws -> String {
     var queryString = "{\n"
     for (i, query) in queryBuilder.queries.enumerated() {
       queryString += try query.build()
@@ -119,7 +119,7 @@ private class QueryStringBuilder {
     return queryString
   }
   
-  private func joinCollections(_ current: Int) -> String {
+  fileprivate func joinCollections(_ current: Int) -> String {
     return current == queryBuilder.queries.count - 1 ? "" : ",\n"
   }
 

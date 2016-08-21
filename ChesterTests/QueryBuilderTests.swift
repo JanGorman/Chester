@@ -7,14 +7,14 @@ import XCTest
 
 class QueryBuilderTests: XCTestCase {
 
-  private func loadExpectationForTest(_ test: String) -> String {
+  fileprivate func loadExpectationForTest(_ test: String) -> String {
     let resource = testNameByRemovingParentheses(test)
-    let url = Bundle(for: self.dynamicType).urlForResource(resource, withExtension: "json")!
+    let url = Bundle(for: type(of: self)).url(forResource: resource, withExtension: "json")!
     let contents = try! String(contentsOf: url)
     return contents
   }
 
-  private func testNameByRemovingParentheses(_ test: String) -> String {
+  fileprivate func testNameByRemovingParentheses(_ test: String) -> String {
     return test.substring(to: test.characters.index(test.endIndex, offsetBy: -2))
   }
 
