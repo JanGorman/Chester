@@ -8,7 +8,7 @@ script:
 - echo $SIMULATOR_ID
 - open -b com.apple.iphonesimulator --args -CurrentDeviceUDID $SIMULATOR_ID
 - set -o pipefail
-- scan --code_coverage true --device "iPhone 6"
+- scan --device "iPhone 6"
 - pod lib lint
 after_success:
 - bash <(curl -s https://codecov.io/bash)
