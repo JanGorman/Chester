@@ -6,7 +6,7 @@ import Foundation
 
 internal struct Query {
   
-  private static let Indent = 2
+  fileprivate static let indent = 2
 
   var collection: String
   var arguments: [Argument]
@@ -20,49 +20,49 @@ internal struct Query {
     subQueries = []
   }
 
-  mutating func withArguments(arguments: [Argument]) {
-    self.arguments.appendContentsOf(arguments)
+  mutating func with(arguments: [Argument]) {
+    self.arguments.append(contentsOf: arguments)
   }
 
-  mutating func withFields(fields: [String]) {
-    self.fields.appendContentsOf(fields)
+  mutating func with(fields: [String]) {
+    self.fields.append(contentsOf: fields)
   }
 
-  mutating func withSubQueries(queries: [Query]) {
-    self.subQueries.appendContentsOf(queries)
+  mutating func with(subQueries queries: [Query]) {
+    self.subQueries.append(contentsOf: queries)
   }
   
   func validate() throws {
     if fields.isEmpty {
-      throw QueryError.MissingFields
+      throw QueryError.missingFields
     }
   }
 
-  func build(indent: Int = Query.Indent) throws -> String {
+  func build(_ indent: Int = Query.indent) throws -> String {
     var query = "\(" ".times(indent))\(collection)\(buildArguments()) {\n"
-    query += try buildFields(indent + Query.Indent)
+    query += try buildFields(indent + Query.indent)
     if !subQueries.isEmpty {
       query += ",\n"
-      query += try buildSubQueries(indent + Query.Indent) + "\n" + " ".times(indent) + "}"
+      query += try buildSubQueries(indent + Query.indent) + "\n" + " ".times(indent) + "}"
     } else {
       query += "\n" + " ".times(indent) + "}"
     }
     return query
   }
   
-  private func buildArguments() -> String {
+  fileprivate func buildArguments() -> String {
     if arguments.isEmpty {
       return ""
     }
-    return "(" + arguments.flatMap{ $0.build() }.joinWithSeparator(", ") + ")"
+    return "(" + arguments.flatMap{ $0.build() }.joined(separator: ", ") + ")"
   }
   
-  private func buildFields(indent: Int ) throws -> String {
-    return fields.map{ " ".times(indent) + $0 }.joinWithSeparator(",\n")
+  fileprivate func buildFields(_ indent: Int ) throws -> String {
+    return fields.map{ " ".times(indent) + $0 }.joined(separator: ",\n")
   }
 
-  private func buildSubQueries(indent: Int) throws -> String {
-    return try subQueries.map{ try $0.build(indent) }.joinWithSeparator(",\n")
+  fileprivate func buildSubQueries(_ indent: Int) throws -> String {
+    return try subQueries.map{ try $0.build(indent) }.joined(separator: ",\n")
   }
 
 }
