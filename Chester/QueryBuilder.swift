@@ -37,8 +37,8 @@ final class QueryBuilder {
   ///                     or when querying multiple top level collections.
   /// - Parameter arguments: The arguments to limit this collection.
   /// - Parameter subQueries: for this collection.
-  open func fromCollection(_ collection: String, fields: [String]? = nil, arguments: [Argument]? = nil,
-                             subQueries: [QueryBuilder]? = nil) -> Self {
+  open func from(collection: String, fields: [String]? = nil, arguments: [Argument]? = nil,
+                 subQueries: [QueryBuilder]? = nil) -> Self {
     var query = Query(collection: collection)
     if let fields = fields {
       query.withFields(fields)
@@ -57,7 +57,7 @@ final class QueryBuilder {
   ///
   /// - Parameter arguments: The query args struct(s)
   /// - Throws: `MissingCollection` if no collection is defined before passing in arguments
-  open func withArguments(_ arguments: Argument...) throws -> Self {
+  open func with(arguments: Argument...) throws -> Self {
     guard let _ = queries.first else { throw QueryError.missingCollection }
     self.queries[0].withArguments(arguments)
     return self
@@ -67,7 +67,7 @@ final class QueryBuilder {
   ///
   /// - Parameter fields: The field names
   /// - Throws: `MissingCollection` if no collection is defined before passing in fields
-  open func withFields(_ fields: String...) throws -> Self {
+  open func with(fields: String...) throws -> Self {
     guard let _ = queries.first else { throw QueryError.missingCollection }
     self.queries[0].withFields(fields)
     return self
@@ -77,7 +77,7 @@ final class QueryBuilder {
   ///
   /// - Parameter query: The subquery
   /// - Throws: `MissingCollection` if no collection is defined before passing in a subquery
-  open func withSubQuery(_ query: QueryBuilder) throws -> Self {
+  open func with(subQuery query: QueryBuilder) throws -> Self {
     guard !queries.isEmpty else { throw QueryError.missingCollection }
     queries[0].withSubQueries(query.queries)
     return self

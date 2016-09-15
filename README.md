@@ -16,9 +16,9 @@ Chester uses the builder pattern to construct GraphQL queries. In it's basic for
 import Chester
 
 let query = QueryBuilder()
-	.fromCollection("posts")
-	.withArguments(Argument(key: "id", value: "20"), Argument(key: "author", value: "Chester"))
-	.withFields("id", "title", "content")
+	.from(collection: "posts")
+	.with(arguments: Argument(key: "id", value: "20"), Argument(key: "author", value: "Chester"))
+	.with(fields: "id", "title", "content")
 
 // For cases with dynamic input, probably best to use a do-catch:
 
@@ -38,12 +38,12 @@ You can add subqueries. Add as many as needed. You can nest them as well.
 ```swift
 
 let commentsQuery = QueryBuilder()
-	.fromCollection("comments")
-	.withFields("id", content)
+	.from(collection: "comments")
+	.with(fields: "id", content)
 let postsQuery = QueryBuilder()
-	.fromCollection("posts")
-	.withFields("id", "title")
-	.withSubQuery(commentsQuery)
+	.from(collection: "posts")
+	.with(fields: "id", "title")
+	.with(subQuery: commentsQuery)
 
 ```
 
@@ -52,7 +52,7 @@ Check the included unit tests for further examples.
 
 ## Requirements
 
-* Swift 2.2
+* Swift 3
 * iOS 8
 
 ## Installation
