@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode8.0
+osx_image: xcode8
 before_install:
 - gem install scan --no-doc
 - SIMULATOR_ID=$(xcrun instruments -s | grep -o "iPhone 6 \(.*\) \[.*\]" | grep -o "\[.*\]" | sed "s/^\[\(.*\)\]$/\1/")
@@ -8,7 +8,7 @@ script:
 - echo $SIMULATOR_ID
 - open -b com.apple.iphonesimulator --args -CurrentDeviceUDID $SIMULATOR_ID
 - set -o pipefail
-- scan --device "iPhone 6"
+- scan --code_coverage true --device "iPhone 6"
 - pod lib lint
 after_success:
 - bash <(curl -s https://codecov.io/bash)

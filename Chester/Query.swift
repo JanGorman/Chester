@@ -20,15 +20,15 @@ internal struct Query {
     subQueries = []
   }
 
-  mutating func withArguments(_ arguments: [Argument]) {
+  mutating func with(arguments: [Argument]) {
     self.arguments.append(contentsOf: arguments)
   }
 
-  mutating func withFields(_ fields: [String]) {
+  mutating func with(fields: [String]) {
     self.fields.append(contentsOf: fields)
   }
 
-  mutating func withSubQueries(_ queries: [Query]) {
+  mutating func with(subQueries queries: [Query]) {
     self.subQueries.append(contentsOf: queries)
   }
   
