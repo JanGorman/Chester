@@ -35,14 +35,14 @@ final class QueryBuilder {
 
   /// The collection to query
   ///
-  /// - Parameter collection: The collection name.
+  /// - Parameter from: Querying "from"
   /// - Parameter fields: The fields to query in this collection. Use as an alternative to passing in fields separately
   ///                     or when querying multiple top level collections.
   /// - Parameter arguments: The arguments to limit this collection.
   /// - Parameter subQueries: for this collection.
-  public func from(collection: String, fields: [String]? = nil, arguments: [Argument]? = nil,
+  public func from(_ from: String, fields: [String]? = nil, arguments: [Argument]? = nil,
                    subQueries: [QueryBuilder]? = nil) -> Self {
-    var query = Query(collection: collection)
+    var query = Query(from: from)
     if let fields = fields {
       query.with(fields: fields)
     }
@@ -83,6 +83,20 @@ final class QueryBuilder {
   public func with(subQuery query: QueryBuilder) throws -> Self {
     guard !queries.isEmpty else { throw QueryError.missingCollection }
     queries[0].with(subQueries: query.queries)
+    return self
+  }
+  
+  /// Query a number of collections for the same field
+  ///
+  /// - Parameter collections: The collection names
+  public func on(collections: String...) -> Self {
+    queries[0].with(onCollections: collections)
+    return self
+  }
+  
+  /// Query for the meta field __typename
+  public func withTypename() -> Self {
+    queries[0].withTypename = true
     return self
   }
   

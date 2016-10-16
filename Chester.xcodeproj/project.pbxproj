@@ -19,6 +19,8 @@
 		94AE4D701CA820190079DD8D /* testQueryWithFields.json in Resources */ = {isa = PBXBuildFile; fileRef = 94AE4D6F1CA820190079DD8D /* testQueryWithFields.json */; };
 		94AE4D721CA8260F0079DD8D /* testQueryWithSubQuery.json in Resources */ = {isa = PBXBuildFile; fileRef = 94AE4D711CA8260F0079DD8D /* testQueryWithSubQuery.json */; };
 		94AE4D741CA82ACD0079DD8D /* testQueryWithNestedSubQueries.json in Resources */ = {isa = PBXBuildFile; fileRef = 94AE4D731CA82ACC0079DD8D /* testQueryWithNestedSubQueries.json */; };
+		94E419E21DB3D075009852A6 /* testQueryOn.json in Resources */ = {isa = PBXBuildFile; fileRef = 94E419E11DB3D075009852A6 /* testQueryOn.json */; };
+		94E419E41DB3D62A009852A6 /* testQueryOnWithTypename.json in Resources */ = {isa = PBXBuildFile; fileRef = 94E419E31DB3D62A009852A6 /* testQueryOnWithTypename.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		94AE4D6F1CA820190079DD8D /* testQueryWithFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryWithFields.json; sourceTree = "<group>"; };
 		94AE4D711CA8260F0079DD8D /* testQueryWithSubQuery.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryWithSubQuery.json; sourceTree = "<group>"; };
 		94AE4D731CA82ACC0079DD8D /* testQueryWithNestedSubQueries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryWithNestedSubQueries.json; sourceTree = "<group>"; };
+		94E419E11DB3D075009852A6 /* testQueryOn.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryOn.json; sourceTree = "<group>"; };
+		94E419E31DB3D62A009852A6 /* testQueryOnWithTypename.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryOnWithTypename.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +112,8 @@
 				94AE4D711CA8260F0079DD8D /* testQueryWithSubQuery.json */,
 				94AE4D731CA82ACC0079DD8D /* testQueryWithNestedSubQueries.json */,
 				94A76AAB1CA958E00098F2A9 /* testQueryArgs.json */,
+				94E419E11DB3D075009852A6 /* testQueryOn.json */,
+				94E419E31DB3D62A009852A6 /* testQueryOnWithTypename.json */,
 				94A76AAE1CA98BD80098F2A9 /* testQueryWithMultipleRootFields.json */,
 				94A76AB01CA9971A0098F2A9 /* testQueryWithMultipleRootFieldsAndArgs.json */,
 				94A76AB21CA99B9B0098F2A9 /* testQueryWithMultipleRootAndSubQueries.json */,
@@ -218,10 +224,12 @@
 				94A76AB31CA99B9B0098F2A9 /* testQueryWithMultipleRootAndSubQueries.json in Resources */,
 				94AE4D741CA82ACD0079DD8D /* testQueryWithNestedSubQueries.json in Resources */,
 				94A76AAC1CA958E00098F2A9 /* testQueryArgs.json in Resources */,
+				94E419E21DB3D075009852A6 /* testQueryOn.json in Resources */,
 				94A76AB11CA9971A0098F2A9 /* testQueryWithMultipleRootFieldsAndArgs.json in Resources */,
 				94AE4D721CA8260F0079DD8D /* testQueryWithSubQuery.json in Resources */,
 				94A76AAF1CA98BD80098F2A9 /* testQueryWithMultipleRootFields.json in Resources */,
 				94AE4D701CA820190079DD8D /* testQueryWithFields.json in Resources */,
+				94E419E41DB3D62A009852A6 /* testQueryOnWithTypename.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

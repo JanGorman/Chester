@@ -1,0 +1,10 @@
+{
+  search(text: "an") {
+    ... on Human {
+      name
+    }
+    ... on Droid {
+      name
+    }
+  }
+}

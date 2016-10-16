@@ -20,7 +20,7 @@ class QueryBuilderTests: XCTestCase {
 
   func testQueryWithFields() {
     let query = try! QueryBuilder()
-      .from(collection: "posts")
+      .from("posts")
       .with(fields: "id", "title")
       .build()
     
@@ -31,10 +31,10 @@ class QueryBuilderTests: XCTestCase {
 
   func testQueryWithSubQuery() {
     let commentsQuery = try! QueryBuilder()
-      .from(collection: "comments")
+      .from("comments")
       .with(fields: "body")
     let postsQuery = try! QueryBuilder()
-      .from(collection: "posts")
+      .from("posts")
       .with(fields: "id", "title")
       .with(subQuery: commentsQuery)
       .build()
@@ -46,14 +46,14 @@ class QueryBuilderTests: XCTestCase {
   
   func testQueryWithNestedSubQueries() {
     let authorQuery = try! QueryBuilder()
-      .from(collection: "author")
+      .from("author")
       .with(fields: "firstname")
     let commentsQuery = try! QueryBuilder()
-      .from(collection: "comments")
+      .from("comments")
       .with(fields: "body")
       .with(subQuery: authorQuery)
     let postsQuery = try! QueryBuilder()
-      .from(collection: "posts")
+      .from("posts")
       .with(fields: "id", "title")
       .with(subQuery: commentsQuery)
       .build()
@@ -66,17 +66,17 @@ class QueryBuilderTests: XCTestCase {
   func testInvalidQueryThrows() {
     XCTAssertThrowsError(try QueryBuilder().build())
     XCTAssertThrowsError(try QueryBuilder().with(fields: "id").build())
-    XCTAssertThrowsError(try QueryBuilder().from(collection: "foo").build())
+    XCTAssertThrowsError(try QueryBuilder().from("foo").build())
     XCTAssertThrowsError(try QueryBuilder().with(arguments: Argument(key: "key", value: "value")).build())
     
-    let subQuery = try! QueryBuilder().from(collection: "foo").with(fields: "foo")
+    let subQuery = try! QueryBuilder().from("foo").with(fields: "foo")
     
     XCTAssertThrowsError(try QueryBuilder().with(subQuery: subQuery))
   }
   
   func testQueryArgs() {
     let query = try! QueryBuilder()
-      .from(collection: "posts")
+      .from("posts")
       .with(arguments: Argument(key: "id", value: 4), Argument(key: "author", value: "Chester"))
       .with(fields: "id", "title")
       .build()
@@ -88,8 +88,8 @@ class QueryBuilderTests: XCTestCase {
   
   func testQueryWithMultipleRootFields() {
     let query = try! QueryBuilder()
-      .from(collection: "posts", fields: ["id", "title"])
-      .from(collection: "comments", fields: ["body"])
+      .from("posts", fields: ["id", "title"])
+      .from("comments", fields: ["body"])
       .build()
     
     let expectation = loadExpectationForTest(#function)
@@ -99,9 +99,9 @@ class QueryBuilderTests: XCTestCase {
   
   func testQueryWithMultipleRootFieldsAndArgs() {
     let query = try! QueryBuilder()
-      .from(collection: "posts", fields: ["id", "title"], arguments: [Argument(key: "id", value: 5)])
-      .from(collection: "comments", fields: ["body"], arguments: [Argument(key: "author", value: "Chester"),
-                                                                Argument(key: "limit", value: 10)])
+      .from("posts", fields: ["id", "title"], arguments: [Argument(key: "id", value: 5)])
+      .from("comments", fields: ["body"], arguments: [Argument(key: "author", value: "Chester"),
+                                                      Argument(key: "limit", value: 10)])
       .build()
     
     let expectation = loadExpectationForTest(#function)
@@ -111,16 +111,43 @@ class QueryBuilderTests: XCTestCase {
   
   func testQueryWithMultipleRootAndSubQueries() {
     let avatarQuery = try! QueryBuilder()
-      .from(collection: "avatars")
+      .from("avatars")
       .with(arguments: Argument(key: "width", value: 100))
       .with(fields: "url")
     let query = try! QueryBuilder()
-      .from(collection: "posts", fields: ["id"], subQueries: [avatarQuery])
-      .from(collection: "comments", fields: ["body"])
+      .from("posts", fields: ["id"], subQueries: [avatarQuery])
+      .from("comments", fields: ["body"])
       .build()
 
     let expectation = loadExpectationForTest(#function)
 
+    XCTAssertEqual(expectation, query)
+  }
+  
+  func testQueryOn() {
+    let query = try! QueryBuilder()
+      .from("search")
+      .with(arguments: Argument(key: "text", value: "an"))
+      .on(collections: "Human", "Droid")
+      .with(fields: "name")
+      .build()
+    
+    let expectation = loadExpectationForTest(#function)
+    
+    XCTAssertEqual(expectation, query)
+  }
+  
+  func testQueryOnWithTypename() {
+    let query = try! QueryBuilder()
+      .from("search")
+      .with(arguments: Argument(key: "text", value: "an"))
+      .on(collections: "Human", "Droid")
+      .withTypename()
+      .with(fields: "name")
+      .build()
+    
+    let expectation = loadExpectationForTest(#function)
+    
     XCTAssertEqual(expectation, query)
   }
   

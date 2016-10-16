@@ -8,16 +8,19 @@ struct Query {
   
   private static let indent = 2
 
-  var collection: String
+  var from: String
   var arguments: [Argument]
   var fields: [String]
+  var on: [String]
   var subQueries: [Query]
+  var withTypename = false
 
-  init(collection: String) {
-    self.collection = collection
+  init(from: String) {
+    self.from = from
     arguments = []
     fields = []
     subQueries = []
+    on = []
   }
 
   mutating func with(arguments: [Argument]) {
@@ -32,6 +35,10 @@ struct Query {
     self.subQueries.append(contentsOf: queries)
   }
   
+  mutating func with(onCollections: [String]) {
+    on.append(contentsOf: onCollections)
+  }
+  
   func validate() throws {
     if fields.isEmpty {
       throw QueryError.missingFields
@@ -39,8 +46,12 @@ struct Query {
   }
 
   func build(_ indent: Int = Query.indent) throws -> String {
-    var query = "\(" ".times(indent))\(collection)\(buildArguments()) {\n"
-    query += try buildFields(indent + Query.indent)
+    var query = "\(" ".times(indent))\(from)\(buildArguments()) {\n"
+    if !on.isEmpty {
+      query += buildOn(indent + Query.indent)
+    } else {
+      query += buildFields(indent + Query.indent)
+    }
     if !subQueries.isEmpty {
       query += ",\n"
       query += try buildSubQueries(indent + Query.indent) + "\n" + " ".times(indent) + "}"
@@ -57,7 +68,19 @@ struct Query {
     return "(" + arguments.flatMap{ $0.build() }.joined(separator: ", ") + ")"
   }
   
-  private func buildFields(_ indent: Int ) throws -> String {
+  private func buildOn(_ indent: Int) -> String {
+    var onCollection = on.map {
+      var onCollection = " ".times(indent) + "... on \($0) {\n"
+      onCollection += buildFields(indent + indent / 2) + "\n" + " ".times(indent) + "}"
+      return onCollection
+    }.joined(separator: "\n")
+    if withTypename {
+      onCollection = " ".times(indent) + "__typename\n" + onCollection
+    }
+    return onCollection
+  }
+  
+  private func buildFields(_ indent: Int) -> String {
     return fields.map { " ".times(indent) + $0 }.joined(separator: ",\n")
   }
 
