@@ -3,7 +3,7 @@
     id,
     title
   },
-  comments(author: Chester, limit: 10) {
+  comments(author: "Chester", limit: 10) {
     body
   }
 }

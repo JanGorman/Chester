@@ -1,5 +1,5 @@
 {
-  posts(id: 4, author: Chester) {
+  posts(id: 4, author: "Chester") {
     id,
     title
   }

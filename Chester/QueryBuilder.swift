@@ -17,6 +17,9 @@ public struct Argument {
   let value: Any
   
   func build() -> String {
+    if value is String {
+      return "\(key): \"\(value)\""
+    }
     return "\(key): \(value)"
   }
 

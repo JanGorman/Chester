@@ -11,7 +11,7 @@ class QueryBuilderTests: XCTestCase {
     let resource = testNameByRemovingParentheses(test)
     let url = Bundle(for: type(of: self)).url(forResource: resource, withExtension: "json")!
     let contents = try! String(contentsOf: url)
-    return contents
+    return contents.trimmingCharacters(in: .whitespacesAndNewlines)
   }
 
   fileprivate func testNameByRemovingParentheses(_ test: String) -> String {
