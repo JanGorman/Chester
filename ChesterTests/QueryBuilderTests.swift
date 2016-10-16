@@ -41,11 +41,6 @@ class QueryBuilderTests: XCTestCase {
     
     let expectation = loadExpectationForTest(#function)
     
-    
-    print(expectation)
-    print(":::")
-    print(postsQuery)
-    
     XCTAssertEqual(expectation, postsQuery)
   }
   
@@ -75,6 +70,7 @@ class QueryBuilderTests: XCTestCase {
     XCTAssertThrowsError(try QueryBuilder().with(arguments: Argument(key: "key", value: "value")).build())
     
     let subQuery = try! QueryBuilder().from(collection: "foo").with(fields: "foo")
+    
     XCTAssertThrowsError(try QueryBuilder().with(subQuery: subQuery))
   }
   

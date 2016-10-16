@@ -4,9 +4,9 @@
 
 import Foundation
 
-internal struct Query {
+struct Query {
   
-  fileprivate static let indent = 2
+  private static let indent = 2
 
   var collection: String
   var arguments: [Argument]
@@ -50,19 +50,19 @@ internal struct Query {
     return query
   }
   
-  fileprivate func buildArguments() -> String {
+  private func buildArguments() -> String {
     if arguments.isEmpty {
       return ""
     }
     return "(" + arguments.flatMap{ $0.build() }.joined(separator: ", ") + ")"
   }
   
-  fileprivate func buildFields(_ indent: Int ) throws -> String {
-    return fields.map{ " ".times(indent) + $0 }.joined(separator: ",\n")
+  private func buildFields(_ indent: Int ) throws -> String {
+    return fields.map { " ".times(indent) + $0 }.joined(separator: ",\n")
   }
 
-  fileprivate func buildSubQueries(_ indent: Int) throws -> String {
-    return try subQueries.map{ try $0.build(indent) }.joined(separator: ",\n")
+  private func buildSubQueries(_ indent: Int) throws -> String {
+    return try subQueries.map { try $0.build(indent) }.joined(separator: ",\n")
   }
 
 }
