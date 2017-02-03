@@ -16,6 +16,11 @@ public struct Argument {
   let key: String
   let value: Any
   
+  public init(key: String, value: Any) {
+    self.key = key
+    self.value = value
+  }
+  
   func build() -> String {
     if value is String {
       return "\(key): \"\(value)\""
