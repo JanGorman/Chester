@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		371630801E8A975400ABDFEE /* GraphQLSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3716307F1E8A975400ABDFEE /* GraphQLSerializable.swift */; };
+		371630821E8AAD1F00ABDFEE /* testQueryArgsWithSpecialCharacters.json in Resources */ = {isa = PBXBuildFile; fileRef = 371630811E8AAD1F00ABDFEE /* testQueryArgsWithSpecialCharacters.json */; };
+		371630841E8AB18500ABDFEE /* testQueryArgsWithDictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = 371630831E8AB18500ABDFEE /* testQueryArgsWithDictionary.json */; };
 		944A3AB81CBA70AF00172E0B /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944A3AB71CBA70AF00172E0B /* Query.swift */; };
 		94A76AAC1CA958E00098F2A9 /* testQueryArgs.json in Resources */ = {isa = PBXBuildFile; fileRef = 94A76AAB1CA958E00098F2A9 /* testQueryArgs.json */; };
 		94A76AAF1CA98BD80098F2A9 /* testQueryWithMultipleRootFields.json in Resources */ = {isa = PBXBuildFile; fileRef = 94A76AAE1CA98BD80098F2A9 /* testQueryWithMultipleRootFields.json */; };
@@ -34,6 +37,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3716307F1E8A975400ABDFEE /* GraphQLSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphQLSerializable.swift; sourceTree = "<group>"; };
+		371630811E8AAD1F00ABDFEE /* testQueryArgsWithSpecialCharacters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryArgsWithSpecialCharacters.json; sourceTree = "<group>"; };
+		371630831E8AB18500ABDFEE /* testQueryArgsWithDictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryArgsWithDictionary.json; sourceTree = "<group>"; };
 		944A3AB71CBA70AF00172E0B /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		94A76AAB1CA958E00098F2A9 /* testQueryArgs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryArgs.json; sourceTree = "<group>"; };
 		94A76AAE1CA98BD80098F2A9 /* testQueryWithMultipleRootFields.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryWithMultipleRootFields.json; sourceTree = "<group>"; };
@@ -99,6 +105,7 @@
 				94AE4D581CA81B250079DD8D /* Info.plist */,
 				94AE4D6D1CA81C8C0079DD8D /* QueryBuilder.swift */,
 				944A3AB71CBA70AF00172E0B /* Query.swift */,
+				3716307F1E8A975400ABDFEE /* GraphQLSerializable.swift */,
 			);
 			path = Chester;
 			sourceTree = "<group>";
@@ -112,6 +119,8 @@
 				94AE4D711CA8260F0079DD8D /* testQueryWithSubQuery.json */,
 				94AE4D731CA82ACC0079DD8D /* testQueryWithNestedSubQueries.json */,
 				94A76AAB1CA958E00098F2A9 /* testQueryArgs.json */,
+				371630811E8AAD1F00ABDFEE /* testQueryArgsWithSpecialCharacters.json */,
+				371630831E8AB18500ABDFEE /* testQueryArgsWithDictionary.json */,
 				94E419E11DB3D075009852A6 /* testQueryOn.json */,
 				94E419E31DB3D62A009852A6 /* testQueryOnWithTypename.json */,
 				94A76AAE1CA98BD80098F2A9 /* testQueryWithMultipleRootFields.json */,
@@ -227,9 +236,11 @@
 				94E419E21DB3D075009852A6 /* testQueryOn.json in Resources */,
 				94A76AB11CA9971A0098F2A9 /* testQueryWithMultipleRootFieldsAndArgs.json in Resources */,
 				94AE4D721CA8260F0079DD8D /* testQueryWithSubQuery.json in Resources */,
+				371630821E8AAD1F00ABDFEE /* testQueryArgsWithSpecialCharacters.json in Resources */,
 				94A76AAF1CA98BD80098F2A9 /* testQueryWithMultipleRootFields.json in Resources */,
 				94AE4D701CA820190079DD8D /* testQueryWithFields.json in Resources */,
 				94E419E41DB3D62A009852A6 /* testQueryOnWithTypename.json in Resources */,
+				371630841E8AB18500ABDFEE /* testQueryArgsWithDictionary.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +253,7 @@
 			files = (
 				944A3AB81CBA70AF00172E0B /* Query.swift in Sources */,
 				94AE4D6E1CA81C8C0079DD8D /* QueryBuilder.swift in Sources */,
+				371630801E8A975400ABDFEE /* GraphQLSerializable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

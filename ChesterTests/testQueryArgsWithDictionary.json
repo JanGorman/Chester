@@ -1,0 +1,6 @@
+{
+  posts(id: 4, filter: [{author: "Chester",labels: ["recipes"]},{author: "Iskander"}]) {
+    id,
+    title
+  }
+}
