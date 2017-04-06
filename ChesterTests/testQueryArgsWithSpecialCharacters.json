@@ -1,0 +1,6 @@
+{
+  posts(id: 4, author: "\tIs this an \"emoji\"? 👻 \r\n(y\\n)Special\b\f\u0004\u001b") {
+    id,
+    title
+  }
+}

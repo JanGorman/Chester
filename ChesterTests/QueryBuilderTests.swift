@@ -86,6 +86,30 @@ class QueryBuilderTests: XCTestCase {
     XCTAssertEqual(expectation, query)
   }
   
+  func testQueryArgsWithSpecialCharacters() {
+    let query = try! QueryBuilder()
+      .from("posts")
+      .with(arguments: Argument(key: "id", value: 4), Argument(key: "author", value: "\tIs this an \"emoji\"? 👻 \r\n(y\\n)Special\u{8}\u{c}\u{4}\u{1b}"))
+      .with(fields: "id", "title")
+      .build()
+    
+    let expectation = loadExpectationForTest(#function)
+    
+    XCTAssertEqual(expectation, query)
+  }
+  
+  func testQueryArgsWithDictionary() {
+    let query = try! QueryBuilder()
+      .from("posts")
+      .with(arguments: Argument(key: "id", value: 4), Argument(key: "filter", value: [["author": "Chester", "labels": ["recipes"]],["author": "Iskander"]]))
+      .with(fields: "id", "title")
+      .build()
+    
+    let expectation = loadExpectationForTest(#function)
+    
+    XCTAssertEqual(expectation, query)
+  }
+  
   func testQueryWithMultipleRootFields() {
     let query = try! QueryBuilder()
       .from("posts", fields: ["id", "title"])
