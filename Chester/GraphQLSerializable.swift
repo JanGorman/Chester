@@ -8,20 +8,16 @@ protocol GraphQLSerializable {
 
 extension GraphQLSerializable {
   var asGraphQLString: String {
-    get {
-      return "\(self)"
-    }
+    return "\(self)"
   }
 }
 
 extension String: GraphQLSerializable {
   var asGraphQLString: String {
-    get {
-      return "\"" + escape(string: self) + "\""
-    }
+    return "\"" + escape(string: self) + "\""
   }
   
-  //Escape strings according to https://facebook.github.io/graphql/#sec-String-Value
+  /// Escape strings according to https://facebook.github.io/graphql/#sec-String-Value
   private func escape(string input: String) -> String{
     var output = ""
     
@@ -54,35 +50,31 @@ extension String: GraphQLSerializable {
 
 extension Dictionary: GraphQLSerializable {
   var asGraphQLString: String {
-    get {
-      let output = self.map { (key: Key, value: Value) -> String in
-        let serializedValue: String
-        if let value = value as? GraphQLSerializable {
-          serializedValue = value.asGraphQLString
-        } else {
-          serializedValue = "\(value)"
-        }
-
-        return "\(key): \(serializedValue)"
-        }.joined(separator: ",")
+    let output = self.map { (key: Key, value: Value) -> String in
+      let serializedValue: String
+      if let value = value as? GraphQLSerializable {
+        serializedValue = value.asGraphQLString
+      } else {
+        serializedValue = "\(value)"
+      }
       
-      return "{\(output)}"
-    }
+      return "\(key): \(serializedValue)"
+      }.joined(separator: ",")
+    
+    return "{\(output)}"
   }
 }
 
 extension Array: GraphQLSerializable {
   var asGraphQLString: String {
-    get {
-      let output = self.map { (element: Element) -> String in
-        if let element = element as? GraphQLSerializable {
-          return element.asGraphQLString
-        } else {
-          return "\(element)"
-        }
+    let output = self.map { (element: Element) -> String in
+      if let element = element as? GraphQLSerializable {
+        return element.asGraphQLString
+      } else {
+        return "\(element)"
+      }
       }.joined(separator: ",")
-      
-      return "[\(output)]"
-    }
+    
+    return "[\(output)]"
   }
 }
