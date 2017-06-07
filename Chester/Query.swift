@@ -6,7 +6,7 @@ import Foundation
 
 struct Query {
   
-  private static let indent = 2
+  static let indent = 2
 
   var from: String
   var arguments: [Argument]

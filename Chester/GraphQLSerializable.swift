@@ -1,7 +1,7 @@
 import Foundation
 
 // Types that implement this protocol can specify a custom format for their 
-//GraphQL arguments, and whether quotes are required
+// GraphQL arguments, and whether quotes are required
 protocol GraphQLSerializable {
   var asGraphQLString: String { get }
 }
@@ -13,6 +13,7 @@ extension GraphQLSerializable {
 }
 
 extension String: GraphQLSerializable {
+  
   var asGraphQLString: String {
     return "\"" + escape(string: self) + "\""
   }
@@ -20,7 +21,6 @@ extension String: GraphQLSerializable {
   /// Escape strings according to https://facebook.github.io/graphql/#sec-String-Value
   private func escape(string input: String) -> String{
     var output = ""
-    
     for scalar in input.unicodeScalars {
       switch scalar {
       case "\"":
@@ -46,11 +46,12 @@ extension String: GraphQLSerializable {
     
     return output
   }
+  
 }
 
 extension Dictionary: GraphQLSerializable {
   var asGraphQLString: String {
-    let output = self.map { (key: Key, value: Value) -> String in
+    let output = self.map { (__val:(Key, Value)) -> String in let (key, value) = __val;
       let serializedValue: String
       if let value = value as? GraphQLSerializable {
         serializedValue = value.asGraphQLString
@@ -67,7 +68,7 @@ extension Dictionary: GraphQLSerializable {
 
 extension Array: GraphQLSerializable {
   var asGraphQLString: String {
-    let output = self.map { (element: Element) -> String in
+    let output = self.map { element in
       if let element = element as? GraphQLSerializable {
         return element.asGraphQLString
       } else {
