@@ -15,7 +15,8 @@ class QueryBuilderTests: XCTestCase {
   }
 
   fileprivate func testNameByRemovingParentheses(_ test: String) -> String {
-    return test.substring(to: test.characters.index(test.endIndex, offsetBy: -2))
+    let idx = test.index(test.endIndex, offsetBy: -2)
+    return String(test[..<idx])
   }
 
   func testQueryWithFields() {
