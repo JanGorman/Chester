@@ -60,7 +60,7 @@ Check the included unit tests for further examples.
 
 ## Requirements
 
-* Swift 3
+* Swift 4
 * iOS 8
 
 ## Installation
