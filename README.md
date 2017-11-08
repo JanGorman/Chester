@@ -25,7 +25,7 @@ let query = QueryBuilder()
 do {
   let queryString = try query.build
 } catch {
-	// Can specify which errors to catch
+  // Can specify which errors to catch
 }
 
 // Or if you're sure of your query
