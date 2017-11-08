@@ -23,7 +23,7 @@ let query = QueryBuilder()
 // For cases with dynamic input, probably best to use a do-catch:
 
 do {
-	let queryString = try query.build
+  let queryString = try query.build
 } catch {
 	// Can specify which errors to catch
 }
