@@ -65,7 +65,7 @@ struct Query {
     if arguments.isEmpty {
       return ""
     }
-    return "(" + arguments.flatMap{ $0.build() }.joined(separator: ", ") + ")"
+    return "(" + arguments.compactMap{ $0.build() }.joined(separator: ", ") + ")"
   }
   
   private func buildOn(_ indent: Int) -> String {
