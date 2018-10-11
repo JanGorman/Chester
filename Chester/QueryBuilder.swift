@@ -70,7 +70,7 @@ public final class QueryBuilder {
   /// - Throws: `MissingCollection` if no collection is defined before passing in arguments
   public func with(arguments: Argument...) throws -> Self {
     guard let _ = queries.first else { throw QueryError.missingCollection }
-    self.queries[0].with(arguments: arguments)
+    self.queries[self.queries.indices.last!].with(arguments: arguments)
     return self
   }
   
@@ -80,7 +80,7 @@ public final class QueryBuilder {
   /// - Throws: `MissingCollection` if no collection is defined before passing in fields
   public func with(fields: String...) throws -> Self {
     guard let _ = queries.first else { throw QueryError.missingCollection }
-    self.queries[0].with(fields: fields)
+    self.queries[self.queries.indices.last!].with(fields: fields)
     return self
   }
   
@@ -90,7 +90,7 @@ public final class QueryBuilder {
   /// - Throws: `MissingCollection` if no collection is defined before passing in a subquery
   public func with(subQuery query: QueryBuilder) throws -> Self {
     guard !queries.isEmpty else { throw QueryError.missingCollection }
-    queries[0].with(subQueries: query.queries)
+    queries[self.queries.indices.last!].with(subQueries: query.queries)
     return self
   }
   
