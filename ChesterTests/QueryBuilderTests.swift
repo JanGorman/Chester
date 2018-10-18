@@ -7,10 +7,10 @@ import XCTest
 
 class QueryBuilderTests: XCTestCase {
 
-  fileprivate func loadExpectationForTest(_ test: String) -> String {
+  fileprivate func loadExpectationForTest(_ test: String) throws -> String {
     let resource = testNameByRemovingParentheses(test)
     let url = Bundle(for: type(of: self)).url(forResource: resource, withExtension: "json")!
-    let contents = try! String(contentsOf: url)
+    let contents = try String(contentsOf: url)
     return contents.trimmingCharacters(in: .whitespacesAndNewlines)
   }
 
@@ -19,151 +19,152 @@ class QueryBuilderTests: XCTestCase {
     return String(test[..<idx])
   }
 
-  func testQueryWithFields() {
-    let query = try! QueryBuilder()
+  func testQueryWithFields() throws {
+    let query = try QueryBuilder()
       .from("posts")
       .with(fields: "id", "title")
       .build()
     
-    let expectation = loadExpectationForTest(#function)
+    let expectation = try loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }
 
-  func testQueryWithSubQuery() {
-    let commentsQuery = try! QueryBuilder()
+  func testQueryWithSubQuery() throws {
+    let commentsQuery = try QueryBuilder()
       .from("comments")
       .with(fields: "body")
-    let postsQuery = try! QueryBuilder()
+    let postsQuery = try QueryBuilder()
       .from("posts")
       .with(fields: "id", "title")
       .with(subQuery: commentsQuery)
       .build()
     
-    let expectation = loadExpectationForTest(#function)
+    let expectation = try loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, postsQuery)
   }
   
-  func testQueryWithNestedSubQueries() {
-    let authorQuery = try! QueryBuilder()
+  func testQueryWithNestedSubQueries() throws {
+    let authorQuery = try QueryBuilder()
       .from("author")
       .with(fields: "firstname")
-    let commentsQuery = try! QueryBuilder()
+    let commentsQuery = try QueryBuilder()
       .from("comments")
       .with(fields: "body")
       .with(subQuery: authorQuery)
-    let postsQuery = try! QueryBuilder()
+    let postsQuery = try QueryBuilder()
       .from("posts")
       .with(fields: "id", "title")
       .with(subQuery: commentsQuery)
       .build()
     
-    let expectation = loadExpectationForTest(#function)
+    let expectation = try loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, postsQuery)
   }
   
-  func testInvalidQueryThrows() {
+  func testInvalidQueryThrows() throws {
     XCTAssertThrowsError(try QueryBuilder().build())
     XCTAssertThrowsError(try QueryBuilder().with(fields: "id").build())
     XCTAssertThrowsError(try QueryBuilder().from("foo").build())
     XCTAssertThrowsError(try QueryBuilder().with(arguments: Argument(key: "key", value: "value")).build())
     
-    let subQuery = try! QueryBuilder().from("foo").with(fields: "foo")
+    let subQuery = try QueryBuilder().from("foo").with(fields: "foo")
     
     XCTAssertThrowsError(try QueryBuilder().with(subQuery: subQuery))
   }
   
-  func testQueryArgs() {
-    let query = try! QueryBuilder()
+  func testQueryArgs() throws {
+    let query = try QueryBuilder()
       .from("posts")
       .with(arguments: Argument(key: "id", value: 4), Argument(key: "author", value: "Chester"))
       .with(fields: "id", "title")
       .build()
     
-    let expectation = loadExpectationForTest(#function)
+    let expectation = try loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }
   
-  func testQueryArgsWithSpecialCharacters() {
-    let query = try! QueryBuilder()
+  func testQueryArgsWithSpecialCharacters() throws {
+    let query = try QueryBuilder()
       .from("posts")
       .with(arguments: Argument(key: "id", value: 4), Argument(key: "author", value: "\tIs this an \"emoji\"? 👻 \r\n(y\\n)Special\u{8}\u{c}\u{4}\u{1b}"))
       .with(fields: "id", "title")
       .build()
     
-    let expectation = loadExpectationForTest(#function)
+    let expectation = try loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }
   
-  func testQueryArgsWithDictionary() {
-    let query = try! QueryBuilder()
+  func testQueryArgsWithDictionary() throws {
+    let query = try QueryBuilder()
       .from("posts")
-      .with(arguments: Argument(key: "id", value: 4), Argument(key: "filter", value: [["author": "Chester", "labels": ["recipes"]],["author": "Iskander"]]))
+      .with(arguments: Argument(key: "id", value: 4),
+            Argument(key: "filter", value: [["author": "Chester", "labels": ["recipes"]], ["author": "Iskander"]]))
       .with(fields: "id", "title")
       .build()
     
-    let expectation = loadExpectationForTest(#function)
+    let expectation = try loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }
   
-  func testQueryWithMultipleRootFields() {
-    let query = try! QueryBuilder()
+  func testQueryWithMultipleRootFields() throws {
+    let query = try QueryBuilder()
       .from("posts", fields: ["id", "title"])
       .from("comments", fields: ["body"])
       .build()
     
-    let expectation = loadExpectationForTest(#function)
+    let expectation = try loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }
   
-  func testQueryWithMultipleRootFieldsAndArgs() {
-    let query = try! QueryBuilder()
+  func testQueryWithMultipleRootFieldsAndArgs() throws {
+    let query = try QueryBuilder()
       .from("posts", fields: ["id", "title"], arguments: [Argument(key: "id", value: 5)])
       .from("comments", fields: ["body"], arguments: [Argument(key: "author", value: "Chester"),
                                                       Argument(key: "limit", value: 10)])
       .build()
     
-    let expectation = loadExpectationForTest(#function)
+    let expectation = try loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }
   
-  func testQueryWithMultipleRootAndSubQueries() {
-    let avatarQuery = try! QueryBuilder()
+  func testQueryWithMultipleRootAndSubQueries() throws {
+    let avatarQuery = try QueryBuilder()
       .from("avatars")
       .with(arguments: Argument(key: "width", value: 100))
       .with(fields: "url")
-    let query = try! QueryBuilder()
+    let query = try QueryBuilder()
       .from("posts", fields: ["id"], subQueries: [avatarQuery])
       .from("comments", fields: ["body"])
       .build()
 
-    let expectation = loadExpectationForTest(#function)
+    let expectation = try loadExpectationForTest(#function)
 
     XCTAssertEqual(expectation, query)
   }
   
-  func testQueryOn() {
-    let query = try! QueryBuilder()
+  func testQueryOn() throws {
+    let query = try QueryBuilder()
       .from("search")
       .with(arguments: Argument(key: "text", value: "an"))
       .on(collections: "Human", "Droid")
       .with(fields: "name")
       .build()
     
-    let expectation = loadExpectationForTest(#function)
+    let expectation = try loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }
   
-  func testQueryOnWithTypename() {
-    let query = try! QueryBuilder()
+  func testQueryOnWithTypename() throws {
+    let query = try QueryBuilder()
       .from("search")
       .with(arguments: Argument(key: "text", value: "an"))
       .on(collections: "Human", "Droid")
@@ -171,7 +172,7 @@ class QueryBuilderTests: XCTestCase {
       .with(fields: "name")
       .build()
     
-    let expectation = loadExpectationForTest(#function)
+    let expectation = try loadExpectationForTest(#function)
     
     XCTAssertEqual(expectation, query)
   }

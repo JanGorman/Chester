@@ -15,12 +15,12 @@ public struct Argument {
 
   let key: String
   let value: Any
-  
+
   public init(key: String, value: Any) {
     self.key = key
     self.value = value
   }
-  
+
   func build() -> String {
     if let value = value as? GraphQLSerializable {
       let escapedValue = value.asGraphQLString
@@ -29,7 +29,6 @@ public struct Argument {
       return "\(key): \(value)"
     }
   }
-  
 
 }
 
