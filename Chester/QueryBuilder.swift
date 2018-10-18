@@ -70,7 +70,10 @@ public final class QueryBuilder {
   /// - Throws: `MissingCollection` if no collection is defined before passing in arguments
   public func with(arguments: Argument...) throws -> Self {
     guard let _ = queries.first else { throw QueryError.missingCollection }
-    self.queries[self.queries.indices.last!].with(arguments: arguments)
+    guard let lastIndex = queries.indices.last else {
+      throw QueryError.missingCollection
+    }
+    queries[lastIndex].with(arguments: arguments)
     return self
   }
   
