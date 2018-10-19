@@ -90,7 +90,8 @@ class QueryBuilderTests: XCTestCase {
   func testQueryArgsWithSpecialCharacters() throws {
     let query = try QueryBuilder()
       .from("posts")
-      .with(arguments: Argument(key: "id", value: 4), Argument(key: "author", value: "\tIs this an \"emoji\"? 👻 \r\n(y\\n)Special\u{8}\u{c}\u{4}\u{1b}"))
+      .with(arguments: Argument(key: "id", value: 4),
+            Argument(key: "author", value: "\tIs this an \"emoji\"? 👻 \r\n(y\\n)Special\u{8}\u{c}\u{4}\u{1b}"))
       .with(fields: "id", "title")
       .build()
     
@@ -103,7 +104,7 @@ class QueryBuilderTests: XCTestCase {
     let query = try QueryBuilder()
       .from("posts")
       .with(arguments: Argument(key: "id", value: 4),
-            Argument(key: "filter", value: [["author": "Chester"], ["author": "Iskander"]]))
+            Argument(key: "filter", value: [["author": ["Chester"]], ["author": "Iskander"], ["books": 1]]))
       .with(fields: "id", "title")
       .build()
     

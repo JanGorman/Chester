@@ -1,15 +1,17 @@
 import Foundation
 
-// Types that implement this protocol can specify a custom format for their 
-// GraphQL arguments, and whether quotes are required
+/// Types that implement this protocol can specify a custom format for their
+/// GraphQL arguments, and whether quotes are required
 protocol GraphQLSerializable {
   var asGraphQLString: String { get }
 }
 
 extension GraphQLSerializable {
+
   var asGraphQLString: String {
     return "\(self)"
   }
+
 }
 
 extension String: GraphQLSerializable {
@@ -50,8 +52,9 @@ extension String: GraphQLSerializable {
 }
 
 extension Dictionary: GraphQLSerializable {
+
   var asGraphQLString: String {
-    let output = self.map { (__val:(Key, Value)) -> String in let (key, value) = __val;
+    let output = self.map { (__val:(Key, Value)) -> String in let (key, value) = __val
       let serializedValue: String
       if let value = value as? GraphQLSerializable {
         serializedValue = value.asGraphQLString
@@ -60,13 +63,15 @@ extension Dictionary: GraphQLSerializable {
       }
       
       return "\(key): \(serializedValue)"
-      }.joined(separator: ",")
+    }.joined(separator: ",")
     
     return "{\(output)}"
   }
+
 }
 
 extension Array: GraphQLSerializable {
+
   var asGraphQLString: String {
     let output = self.map { element in
       if let element = element as? GraphQLSerializable {
@@ -74,8 +79,9 @@ extension Array: GraphQLSerializable {
       } else {
         return "\(element)"
       }
-      }.joined(separator: ",")
+    }.joined(separator: ",")
     
     return "[\(output)]"
   }
+
 }

@@ -1,5 +1,5 @@
 {
-  posts(id: 4, filter: [{author: "Chester"},{author: "Iskander"}]) {
+  posts(id: 4, filter: [{author: ["Chester"]},{author: "Iskander"},{books: 1}]) {
     id,
     title
   }
