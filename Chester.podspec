@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "Chester"
-  s.version      = "0.7.2"
+  s.version      = "0.8.0"
   s.summary      = "Chester is a Swift GraphQL query builder."
   s.description  = <<-DESC
                   Work in progress: Simplify building GraphQL queries with Chester.
@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "8.0"
   s.tvos.deployment_target = "9.0"
+  s.s.swift_version = "4.2"
 
   s.source       = { :git => "https://github.com/JanGorman/Chester.git", :tag => s.version }
 
