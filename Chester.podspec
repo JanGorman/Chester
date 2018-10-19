@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
 
   s.platform     = :ios, "8.0"
   s.tvos.deployment_target = "9.0"
-  s.s.swift_version = "4.2"
+  s.swift_version = "4.2"
 
   s.source       = { :git => "https://github.com/JanGorman/Chester.git", :tag => s.version }
 
