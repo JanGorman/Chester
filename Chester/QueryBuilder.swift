@@ -15,12 +15,12 @@ public struct Argument {
 
   let key: String
   let value: Any
-  
+
   public init(key: String, value: Any) {
     self.key = key
     self.value = value
   }
-  
+
   func build() -> String {
     if let value = value as? GraphQLSerializable {
       let escapedValue = value.asGraphQLString
@@ -29,7 +29,6 @@ public struct Argument {
       return "\(key): \(value)"
     }
   }
-  
 
 }
 
@@ -68,9 +67,12 @@ public final class QueryBuilder {
   ///
   /// - Parameter arguments: The query args struct(s)
   /// - Throws: `MissingCollection` if no collection is defined before passing in arguments
+  @discardableResult
   public func with(arguments: Argument...) throws -> Self {
-    guard let _ = queries.first else { throw QueryError.missingCollection }
-    self.queries[0].with(arguments: arguments)
+    guard let lastIndex = queries.indices.last else {
+      throw QueryError.missingCollection
+    }
+    queries[lastIndex].with(arguments: arguments)
     return self
   }
   
@@ -78,9 +80,12 @@ public final class QueryBuilder {
   ///
   /// - Parameter fields: The field names
   /// - Throws: `MissingCollection` if no collection is defined before passing in fields
+  @discardableResult
   public func with(fields: String...) throws -> Self {
-    guard let _ = queries.first else { throw QueryError.missingCollection }
-    self.queries[0].with(fields: fields)
+    guard let lastIndex = queries.indices.last else {
+      throw QueryError.missingCollection
+    }
+    self.queries[lastIndex].with(fields: fields)
     return self
   }
   
@@ -88,9 +93,12 @@ public final class QueryBuilder {
   ///
   /// - Parameter query: The subquery
   /// - Throws: `MissingCollection` if no collection is defined before passing in a subquery
+  @discardableResult
   public func with(subQuery query: QueryBuilder) throws -> Self {
-    guard !queries.isEmpty else { throw QueryError.missingCollection }
-    queries[0].with(subQueries: query.queries)
+    guard let lastIndex = queries.indices.last else {
+      throw QueryError.missingCollection
+    }
+    queries[lastIndex].with(subQueries: query.queries)
     return self
   }
   
