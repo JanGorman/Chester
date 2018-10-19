@@ -103,7 +103,7 @@ class QueryBuilderTests: XCTestCase {
     let query = try QueryBuilder()
       .from("posts")
       .with(arguments: Argument(key: "id", value: 4),
-            Argument(key: "filter", value: [["author": "Chester", "labels": ["recipes"]], ["author": "Iskander"]]))
+            Argument(key: "filter", value: [["author": "Chester"], ["author": "Iskander"]]))
       .with(fields: "id", "title")
       .build()
     
