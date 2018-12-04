@@ -78,6 +78,14 @@ Or [Carthage](https://github.com/Carthage/Carthage). Add Chester to your Cartfil
 github "JanGorman/Chester"
 ```
 
+Or [Swift Package Manager (SPM)](https://swift.org/package-manager/). Add Chester to your Package.swift:
+
+```
+dependencies: [
+.package(url: "https://github.com/JanGorman/Chester.git", ..upToNextMinor(from: "0.8.0"))
+]
+```
+
 ## Author
 
 [Jan Gorman](https://twitter.com/JanGorman)
