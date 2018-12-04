@@ -434,7 +434,7 @@
 		94AE4D6B1CA81B250079DD8D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = ChesterTests/Info.plist;
+				INFOPLIST_FILE = Tests/ChesterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schnaub.ChesterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -445,7 +445,7 @@
 		94AE4D6C1CA81B250079DD8D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				INFOPLIST_FILE = ChesterTests/Info.plist;
+				INFOPLIST_FILE = Tests/ChesterTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schnaub.ChesterTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
