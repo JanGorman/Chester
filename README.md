@@ -82,7 +82,7 @@ Or [Swift Package Manager (SPM)](https://swift.org/package-manager/). Add Cheste
 
 ```
 dependencies: [
-.package(url: "https://github.com/JanGorman/Chester.git", ..upToNextMinor(from: "0.8.0"))
+.package(url: "https://github.com/JanGorman/Chester.git", .upToNextMinor(from: "0.8.1"))
 ]
 ```
 
