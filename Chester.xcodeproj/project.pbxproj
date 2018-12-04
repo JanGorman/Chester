@@ -107,7 +107,8 @@
 				944A3AB71CBA70AF00172E0B /* Query.swift */,
 				3716307F1E8A975400ABDFEE /* GraphQLSerializable.swift */,
 			);
-			path = Chester;
+			name = Chester;
+			path = Sources/Chester;
 			sourceTree = "<group>";
 		};
 		94AE4D611CA81B250079DD8D /* ChesterTests */ = {
@@ -127,7 +128,8 @@
 				94A76AB01CA9971A0098F2A9 /* testQueryWithMultipleRootFieldsAndArgs.json */,
 				94A76AB21CA99B9B0098F2A9 /* testQueryWithMultipleRootAndSubQueries.json */,
 			);
-			path = ChesterTests;
+			name = ChesterTests;
+			path = Tests/ChesterTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -398,7 +400,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Chester/Info.plist;
+				INFOPLIST_FILE = Sources/Chester/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schnaub.Chester;
@@ -418,7 +420,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = Chester/Info.plist;
+				INFOPLIST_FILE = Sources/Chester/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.schnaub.Chester;
