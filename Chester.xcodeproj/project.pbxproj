@@ -24,6 +24,7 @@
 		94AE4D741CA82ACD0079DD8D /* testQueryWithNestedSubQueries.json in Resources */ = {isa = PBXBuildFile; fileRef = 94AE4D731CA82ACC0079DD8D /* testQueryWithNestedSubQueries.json */; };
 		94E419E21DB3D075009852A6 /* testQueryOn.json in Resources */ = {isa = PBXBuildFile; fileRef = 94E419E11DB3D075009852A6 /* testQueryOn.json */; };
 		94E419E41DB3D62A009852A6 /* testQueryOnWithTypename.json in Resources */ = {isa = PBXBuildFile; fileRef = 94E419E31DB3D62A009852A6 /* testQueryOnWithTypename.json */; };
+		F232D0812259F35A00EA00CD /* DefaultStringInterpolation+Chester.swift in Sources */ = {isa = PBXBuildFile; fileRef = F232D0802259F35A00EA00CD /* DefaultStringInterpolation+Chester.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		94AE4D731CA82ACC0079DD8D /* testQueryWithNestedSubQueries.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryWithNestedSubQueries.json; sourceTree = "<group>"; };
 		94E419E11DB3D075009852A6 /* testQueryOn.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryOn.json; sourceTree = "<group>"; };
 		94E419E31DB3D62A009852A6 /* testQueryOnWithTypename.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryOnWithTypename.json; sourceTree = "<group>"; };
+		F232D0802259F35A00EA00CD /* DefaultStringInterpolation+Chester.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DefaultStringInterpolation+Chester.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				94AE4D6D1CA81C8C0079DD8D /* QueryBuilder.swift */,
 				944A3AB71CBA70AF00172E0B /* Query.swift */,
 				3716307F1E8A975400ABDFEE /* GraphQLSerializable.swift */,
+				F232D0802259F35A00EA00CD /* DefaultStringInterpolation+Chester.swift */,
 			);
 			path = Chester;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F232D0812259F35A00EA00CD /* DefaultStringInterpolation+Chester.swift in Sources */,
 				944A3AB81CBA70AF00172E0B /* Query.swift in Sources */,
 				94AE4D6E1CA81C8C0079DD8D /* QueryBuilder.swift in Sources */,
 				371630801E8A975400ABDFEE /* GraphQLSerializable.swift in Sources */,

@@ -46,7 +46,7 @@ struct Query {
   }
 
   func build(_ indent: Int = Query.indent) throws -> String {
-    var query = "\(" ".times(indent))\(from)\(buildArguments()) {\n"
+    var query = "\(repeat: " ", indent)\(from)\(buildArguments()) {\n"
     if !on.isEmpty {
       query += buildOn(indent + Query.indent)
     } else {
@@ -54,9 +54,9 @@ struct Query {
     }
     if !subQueries.isEmpty {
       query += ",\n"
-      query += try buildSubQueries(indent + Query.indent) + "\n" + " ".times(indent) + "}"
+      query += "\(try buildSubQueries(indent + Query.indent))\n\(repeat: " ", indent)}"
     } else {
-      query += "\n" + " ".times(indent) + "}"
+      query += "\n\(repeat: " ", indent)}"
     }
     return query
   }
@@ -70,18 +70,18 @@ struct Query {
   
   private func buildOn(_ indent: Int) -> String {
     var onCollection = on.map {
-      var onCollection = " ".times(indent) + "... on \($0) {\n"
-      onCollection += buildFields(indent + indent / 2) + "\n" + " ".times(indent) + "}"
+      var onCollection = "\(repeat: " ", indent)... on \($0) {\n"
+      onCollection += "\(buildFields(indent + indent / 2))\n\(repeat: " ", indent)}"
       return onCollection
     }.joined(separator: "\n")
     if withTypename {
-      onCollection = " ".times(indent) + "__typename\n" + onCollection
+      onCollection = "\(repeat: " ", indent)__typename\n\(onCollection)"
     }
     return onCollection
   }
   
   private func buildFields(_ indent: Int) -> String {
-    return fields.map { " ".times(indent) + $0 }.joined(separator: ",\n")
+    return fields.map { "\(repeat: " ", indent)\($0)" }.joined(separator: ",\n")
   }
 
   private func buildSubQueries(_ indent: Int) throws -> String {

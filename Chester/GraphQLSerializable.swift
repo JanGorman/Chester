@@ -1,3 +1,7 @@
+//
+//  Copyright © 2016 Jan Gorman. All rights reserved.
+//
+
 import Foundation
 
 /// Types that implement this protocol can specify a custom format for their

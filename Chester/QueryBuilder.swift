@@ -25,6 +25,7 @@ public struct Argument {
     if let value = value as? GraphQLSerializable {
       let escapedValue = value.asGraphQLString
       return "\(key): \(escapedValue)"
+//      return "\(key): \(value)"
     } else {
       return "\(key): \(value)"
     }
@@ -156,16 +157,4 @@ private class QueryStringBuilder {
     return current == queryBuilder.queries.count - 1 ? "" : ",\n"
   }
 
-}
-
-extension String {
-  
-  func times(_ times: Int) -> String {
-    var result = ""
-    for _ in 0..<times {
-      result += self
-    }
-    return result
-  }
-  
 }
