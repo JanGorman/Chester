@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		371630801E8A975400ABDFEE /* GraphQLSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3716307F1E8A975400ABDFEE /* GraphQLSerializable.swift */; };
 		371630821E8AAD1F00ABDFEE /* testQueryArgsWithSpecialCharacters.json in Resources */ = {isa = PBXBuildFile; fileRef = 371630811E8AAD1F00ABDFEE /* testQueryArgsWithSpecialCharacters.json */; };
 		371630841E8AB18500ABDFEE /* testQueryArgsWithDictionary.json in Resources */ = {isa = PBXBuildFile; fileRef = 371630831E8AB18500ABDFEE /* testQueryArgsWithDictionary.json */; };
 		944A3AB81CBA70AF00172E0B /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944A3AB71CBA70AF00172E0B /* Query.swift */; };
@@ -38,7 +37,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3716307F1E8A975400ABDFEE /* GraphQLSerializable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphQLSerializable.swift; sourceTree = "<group>"; };
 		371630811E8AAD1F00ABDFEE /* testQueryArgsWithSpecialCharacters.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryArgsWithSpecialCharacters.json; sourceTree = "<group>"; };
 		371630831E8AB18500ABDFEE /* testQueryArgsWithDictionary.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testQueryArgsWithDictionary.json; sourceTree = "<group>"; };
 		944A3AB71CBA70AF00172E0B /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
@@ -107,7 +105,6 @@
 				94AE4D581CA81B250079DD8D /* Info.plist */,
 				94AE4D6D1CA81C8C0079DD8D /* QueryBuilder.swift */,
 				944A3AB71CBA70AF00172E0B /* Query.swift */,
-				3716307F1E8A975400ABDFEE /* GraphQLSerializable.swift */,
 				F232D0802259F35A00EA00CD /* DefaultStringInterpolation+Chester.swift */,
 			);
 			path = Chester;
@@ -258,7 +255,6 @@
 				F232D0812259F35A00EA00CD /* DefaultStringInterpolation+Chester.swift in Sources */,
 				944A3AB81CBA70AF00172E0B /* Query.swift in Sources */,
 				94AE4D6E1CA81C8C0079DD8D /* QueryBuilder.swift in Sources */,
-				371630801E8A975400ABDFEE /* GraphQLSerializable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

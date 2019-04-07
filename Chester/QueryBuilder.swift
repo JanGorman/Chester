@@ -22,13 +22,14 @@ public struct Argument {
   }
 
   func build() -> String {
-    if let value = value as? GraphQLSerializable {
-      let escapedValue = value.asGraphQLString
-      return "\(key): \(escapedValue)"
-//      return "\(key): \(value)"
-    } else {
-      return "\(key): \(value)"
+    if let value = value as? String, let escapable = GraphQLEscapedString(value) {
+      return "\(key): \(escapable)"
+    } else if let value = value as? [String: Any] {
+      return "\(GraphQLEscapedDictionary(value))"
+    } else if let value = value as? [Any] {
+      return "\(key): \(GraphQLEscapedArray(value))"
     }
+    return "\(key): \(value)"
   }
 
 }
