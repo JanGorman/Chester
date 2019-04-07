@@ -19,11 +19,11 @@ extension GraphQLSerializable {
 }
 
 extension String: GraphQLSerializable {
-  
+
   var asGraphQLString: String {
     return "\"" + escape(string: self) + "\""
   }
-  
+
   /// Escape strings according to https://facebook.github.io/graphql/#sec-String-Value
   private func escape(string input: String) -> String{
     var output = ""
@@ -49,26 +49,26 @@ extension String: GraphQLSerializable {
         output.append(Character(scalar))
       }
     }
-    
+
     return output
   }
-  
+
 }
 
 extension Dictionary: GraphQLSerializable {
 
   var asGraphQLString: String {
-    let output = self.map { (__val:(Key, Value)) -> String in let (key, value) = __val
+    let output = map { key, value in
       let serializedValue: String
       if let value = value as? GraphQLSerializable {
         serializedValue = value.asGraphQLString
       } else {
         serializedValue = "\(value)"
       }
-      
+
       return "\(key): \(serializedValue)"
-    }.joined(separator: ",")
-    
+      }.joined(separator: ",")
+
     return "{\(output)}"
   }
 
@@ -77,7 +77,7 @@ extension Dictionary: GraphQLSerializable {
 extension Array: GraphQLSerializable {
 
   var asGraphQLString: String {
-    let output = self.map { element in
+    let output = map { element in
       if let element = element as? GraphQLSerializable {
         return element.asGraphQLString
       } else {
