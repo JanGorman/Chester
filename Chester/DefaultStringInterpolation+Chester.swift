@@ -42,12 +42,12 @@ extension DefaultStringInterpolation {
 
   mutating func appendInterpolation(repeat str: String, _ count: Int) {
     for _ in 0..<count {
-      appendLiteral(str)
+      appendInterpolation(str)
     }
   }
 
   mutating func appendInterpolation(_ value: GraphQLEscapedString) {
-    appendLiteral(#""\#(escape(string: value.description))""#)
+    appendInterpolation(#""\#(escape(string: value.description))""#)
   }
 
   /// Escape strings according to https://facebook.github.io/graphql/#sec-String-Value
@@ -95,7 +95,7 @@ extension DefaultStringInterpolation {
       return "\(key): \(serializedValue)"
     }.joined(separator: ",")
 
-    appendLiteral("{\(output)}")
+    appendInterpolation("{\(output)}")
   }
 
   mutating func appendInterpolation(_ value: GraphQLEscapedArray) {
@@ -110,7 +110,7 @@ extension DefaultStringInterpolation {
       return "\(element)"
     }.joined(separator: ",")
 
-    appendLiteral("[\(output)]")
+    appendInterpolation("[\(output)]")
   }
   
 }
