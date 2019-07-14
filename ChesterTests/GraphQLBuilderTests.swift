@@ -11,7 +11,22 @@ class GraphQLBuilderTests: XCTestCase {
     let query = GraphQLQuery {
       From("posts")
       Fields("id", "title")
-    }.query
+    }
+
+    let expectation = try TestHelper().loadExpectationForTest(#function)
+
+    XCTAssertEqual(expectation, query)
+  }
+
+  func testQueryWithSubQuery() throws {
+    let query = GraphQLQuery {
+      From("posts")
+      Fields("id", "title")
+      SubQuery {
+        From("comments")
+        Fields("body")
+      }
+    }
 
     let expectation = try TestHelper().loadExpectationForTest(#function)
 

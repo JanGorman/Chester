@@ -15,22 +15,44 @@ public struct GraphQLBuilder {
   public static func buildBlock(_ components: Component...) -> String {
     let from = components.first(where: { $0 is From })!
     let fields = components.filter { $0 is Fields }.flatMap { $0.components }
+    let subQueries = components.filter { $0 is SubQuery }
 
     let query = try! QueryBuilder()
       .from(from.string)
       .with(fields: fields)
+
+    if !subQueries.isEmpty {
+      for subQuery in subQueries {
+        let q = try! QueryBuilder()
+          .from(subQuery.string)
+          .with(fields: subQuery.components)
+        try! query.with(subQuery: q)
+      }
+    }
 
     return try! query.build()
   }
 
 }
 
-public struct GraphQLQuery {
+public func GraphQLQuery(@GraphQLBuilder builder: () -> String) -> String {
+  return builder()
+}
 
-  public let query: String
+public struct SubQuery: Component {
 
-  public init(@GraphQLBuilder _ builder: () -> String) {
-    self.query = builder()
+  public var string: String
+  public var components: [String] = []
+
+  public init(@GraphQLBuilder builder: () -> String) {
+    // LMAO
+    let query = builder()
+    let sanitized = query.filter { !$0.isWhitespace }
+    let from = String(sanitized.split(separator: "{")[0])
+    let fields = sanitized.filter{ $0 != "}" }.split(separator: "{")[1].split(separator: ",").map { String($0) }
+
+    self.string = from
+    self.components = fields
   }
 
 }
@@ -51,7 +73,7 @@ public struct Fields: Component {
   public let components: [String]
 
   public init(_ components: String...) {
-    self.string = components.joined(separator: ", ")
+    self.string = ""
     self.components = components
   }
 
