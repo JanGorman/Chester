@@ -64,4 +64,19 @@ class GraphQLBuilderTests: XCTestCase {
     XCTAssertEqual(expectation, query)
   }
 
+  func testQueryArgsWithSpecialCharacters() throws {
+    let query = GraphQLQuery {
+      From("posts")
+      Arguments(
+        Argument(key: "id", value: 4),
+        Argument(key: "author", value: "\tIs this an \"emoji\"? 👻 \r\n(y\\n)Special\u{8}\u{c}\u{4}\u{1b}")
+      )
+      Fields("id", "title")
+    }
+
+    let expectation = try TestHelper().loadExpectationForTest(#function)
+
+    XCTAssertEqual(expectation, query)
+  }
+
 }
