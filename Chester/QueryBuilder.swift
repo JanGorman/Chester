@@ -169,14 +169,13 @@ private class QueryStringBuilder {
   }
   
   func build() throws -> String {
-    var queryString = "{\n"
     let count = queryBuilder.queries.count
-    for (i, query) in queryBuilder.queries.enumerated() {
-      queryString += try query.build()
-      queryString += joinCollections(current: i, count: count)
+    let queryString = try queryBuilder.queries.enumerated().reduce(into: "{\n") { (result, arg1) in
+      let (i, query) = arg1
+      result += try query.build()
+      result += joinCollections(current: i, count: count)
     }
-    queryString += "\n}"
-    return queryString
+    return queryString + "\n}"
   }
   
   private func joinCollections(current: Int, count: Int) -> String {
