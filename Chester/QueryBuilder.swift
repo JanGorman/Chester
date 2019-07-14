@@ -84,6 +84,12 @@ public final class QueryBuilder {
   /// - Throws: `MissingCollection` if no collection is defined before passing in fields
   @discardableResult
   public func with(fields: String...) throws -> Self {
+    try with(fields: fields)
+    return self
+  }
+
+  @discardableResult
+  public func with(fields: [String]) throws -> Self {
     guard let lastIndex = queries.indices.last else {
       throw QueryError.missingCollection
     }
@@ -138,13 +144,13 @@ public final class QueryBuilder {
 
 private class QueryStringBuilder {
   
-  fileprivate let queryBuilder: QueryBuilder
+  private let queryBuilder: QueryBuilder
   
   init(_ queryBuilder: QueryBuilder) {
     self.queryBuilder = queryBuilder
   }
   
-  fileprivate func build() throws -> String {
+  func build() throws -> String {
     var queryString = "{\n"
     for (i, query) in queryBuilder.queries.enumerated() {
       queryString += try query.build()
@@ -154,7 +160,7 @@ private class QueryStringBuilder {
     return queryString
   }
   
-  fileprivate func joinCollections(_ current: Int) -> String {
+  private func joinCollections(_ current: Int) -> String {
     return current == queryBuilder.queries.count - 1 ? "" : ",\n"
   }
 

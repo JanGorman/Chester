@@ -1,6 +1,6 @@
 language: objective-c
-osx_image: xcode10.2
+osx_image: xcode11
 script:
-- fastlane scan --code_coverage true --device "iPhone 6"
+- bundle exec fastlane scan --code_coverage true --device "iPhone 6"
 after_success:
 - bash <(curl -s https://codecov.io/bash)
