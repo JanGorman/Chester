@@ -77,6 +77,15 @@ public final class QueryBuilder {
     queries[lastIndex].with(arguments: arguments)
     return self
   }
+
+  @discardableResult
+  func with(rawArguments arguments: [String]) throws -> Self {
+    guard let lastIndex = queries.indices.last else {
+      throw QueryError.missingCollection
+    }
+    queries[lastIndex].with(rawArguments: arguments)
+    return self
+  }
   
   /// The fields to retrieve
   ///

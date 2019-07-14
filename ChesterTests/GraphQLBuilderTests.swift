@@ -52,4 +52,16 @@ class GraphQLBuilderTests: XCTestCase {
     XCTAssertEqual(expectation, query)
   }
 
+  func testQueryArgs() throws {
+    let query = GraphQLQuery {
+      From("posts")
+      Arguments(Argument(key: "id", value: 4), Argument(key: "author", value: "Chester"))
+      Fields("id", "title")
+    }
+
+    let expectation = try TestHelper().loadExpectationForTest(#function)
+
+    XCTAssertEqual(expectation, query)
+  }
+
 }

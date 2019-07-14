@@ -10,6 +10,7 @@ struct Query {
 
   var from: String
   var arguments: [Argument] = []
+  var rawArguments: [String] = []
   var fields: [String] = []
   var on: [String] = []
   var subQueries: [Query] = []
@@ -18,6 +19,10 @@ struct Query {
 
   mutating func with(arguments: [Argument]) {
     self.arguments += arguments
+  }
+
+  mutating func with(rawArguments arguments: [String]) {
+    self.rawArguments += arguments
   }
 
   mutating func with(fields: [String]) {
@@ -43,7 +48,7 @@ struct Query {
   }
 
   func build(_ indent: Int = Query.indent) throws -> String {
-    var query = "\(repeat: " ", indent)\(from)\(buildArguments()) {\n"
+    var query = "\(repeat: " ", indent)\(from)\(chooseArguments()) {\n"
     if !on.isEmpty {
       query += buildOn(indent + Query.indent)
     } else {
@@ -60,12 +65,23 @@ struct Query {
     }
     return query
   }
+
+  private func chooseArguments() -> String {
+    if !rawArguments.isEmpty {
+      return buildRawArguments()
+    }
+    return buildArguments()
+  }
   
   private func buildArguments() -> String {
     if arguments.isEmpty {
       return ""
     }
-    return "(" + arguments.compactMap{ $0.build() }.joined(separator: ", ") + ")"
+    return "(" + arguments.map{ $0.build() }.joined(separator: ", ") + ")"
+  }
+
+  private func buildRawArguments() -> String {
+    return "(" + rawArguments.joined(separator: ", ") + ")"
   }
   
   private func buildOn(_ indent: Int) -> String {

@@ -14,6 +14,7 @@ public struct GraphQLBuilder {
 
   public static func buildBlock(_ components: Component...) -> String {
     let from = components.first(where: { $0 is From })!
+    let arguments = components.filter { $0 is Arguments }.flatMap { $0.components }
     let fields = components.filter { $0 is Fields }.flatMap { $0.components }
     let subQueries = components.filter { $0 is SubQuery }
 
@@ -21,6 +22,9 @@ public struct GraphQLBuilder {
       .from(from.string)
       .with(fields: fields)
 
+    if !arguments.isEmpty {
+      try! query.with(rawArguments: arguments)
+    }
     if !subQueries.isEmpty {
       try! query.with(literalSubQuery: subQueries[0].string)
     }
@@ -66,6 +70,18 @@ public struct Fields: Component {
   public init(_ components: String...) {
     self.string = ""
     self.components = components
+  }
+
+}
+
+public struct Arguments: Component {
+
+  public let string: String
+  public let components: [String]
+
+  public init(_ arguments: Argument...) {
+    self.string = ""
+    self.components = arguments.map { $0.build() }
   }
 
 }
