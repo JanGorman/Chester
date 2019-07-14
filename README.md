@@ -20,6 +20,23 @@ let query = GraphQLQuery {
 }
 ```
 
+Nested queries can be defined in their logical order now:
+
+```swift
+let query = GraphQLQuery {
+  From("posts")
+  Fields("id", "title")
+  SubQuery {
+    From("comments")
+    Fields("body")
+    SubQuery {
+      From("author")
+      Fields("firstname")
+    }
+  }
+}
+```
+
 ## Usage
 
 Chester uses the builder pattern to construct GraphQL queries. In its basic form use it like this:

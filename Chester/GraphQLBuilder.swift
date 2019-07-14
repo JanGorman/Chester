@@ -22,12 +22,7 @@ public struct GraphQLBuilder {
       .with(fields: fields)
 
     if !subQueries.isEmpty {
-      for subQuery in subQueries {
-        let q = try! QueryBuilder()
-          .from(subQuery.string)
-          .with(fields: subQuery.components)
-        try! query.with(subQuery: q)
-      }
+      try! query.with(literalSubQuery: subQueries[0].string)
     }
 
     return try! query.build()
@@ -46,16 +41,9 @@ public struct SubQuery: Component {
 
   public init(@GraphQLBuilder builder: () -> String) {
     // YOLO
-    let query = builder()
-    let sanitized = query.filter { !$0.isWhitespace }
-    let from = String(sanitized.split(separator: "{")[0])
-    let fields = sanitized.filter{ $0 != "}" }
-      .split(separator: "{")[1]
-      .split(separator: ",")
-      .map { String($0) }
+    let query = builder().split(separator: "\n").dropFirst().dropLast().joined(separator: "\n")
 
-    self.string = from
-    self.components = fields
+    self.string = query
   }
 
 }

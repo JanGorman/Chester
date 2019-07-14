@@ -109,6 +109,15 @@ public final class QueryBuilder {
     queries[lastIndex].with(subQueries: query.queries)
     return self
   }
+
+  @discardableResult
+  func with(literalSubQuery query: String) throws -> Self {
+    guard let lastIndex = queries.indices.last else {
+      throw QueryError.missingCollection
+    }
+    queries[lastIndex].with(literalSubQueries: [query])
+    return self
+  }
   
   /// Query a number of collections for the same field
   ///

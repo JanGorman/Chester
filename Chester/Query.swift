@@ -9,34 +9,31 @@ struct Query {
   static let indent = 2
 
   var from: String
-  var arguments: [Argument]
-  var fields: [String]
-  var on: [String]
-  var subQueries: [Query]
+  var arguments: [Argument] = []
+  var fields: [String] = []
+  var on: [String] = []
+  var subQueries: [Query] = []
+  var literalSubQueries: [String] = []
   var withTypename = false
 
-  init(from: String) {
-    self.from = from
-    arguments = []
-    fields = []
-    subQueries = []
-    on = []
-  }
-
   mutating func with(arguments: [Argument]) {
-    self.arguments.append(contentsOf: arguments)
+    self.arguments += arguments
   }
 
   mutating func with(fields: [String]) {
-    self.fields.append(contentsOf: fields)
+    self.fields += fields
   }
 
   mutating func with(subQueries queries: [Query]) {
-    self.subQueries.append(contentsOf: queries)
+    self.subQueries += queries
+  }
+
+  mutating func with(literalSubQueries queries: [String]) {
+    self.literalSubQueries += queries
   }
   
   mutating func with(onCollections: [String]) {
-    on.append(contentsOf: onCollections)
+    on += onCollections
   }
   
   func validate() throws {
@@ -55,6 +52,9 @@ struct Query {
     if !subQueries.isEmpty {
       query += ",\n"
       query += "\(try buildSubQueries(indent + Query.indent))\n\(repeat: " ", indent)}"
+    } else if !literalSubQueries.isEmpty {
+      query += ",\n"
+      query += "\(buildLiteralSubQueryes(indent))\n\(repeat: " ", indent)}"
     } else {
       query += "\n\(repeat: " ", indent)}"
     }
@@ -81,11 +81,17 @@ struct Query {
   }
   
   private func buildFields(_ indent: Int) -> String {
-    return fields.map { "\(repeat: " ", indent)\($0)" }.joined(separator: ",\n")
+    fields.map { "\(repeat: " ", indent)\($0)" }.joined(separator: ",\n")
   }
 
   private func buildSubQueries(_ indent: Int) throws -> String {
-    return try subQueries.map { try $0.build(indent) }.joined(separator: ",\n")
+    try subQueries.map { try $0.build(indent) }.joined(separator: ",\n")
+  }
+
+  private func buildLiteralSubQueryes(_ indent: Int) -> String {
+    literalSubQueries.map { subQuery in
+      subQuery.split(separator: "\n").map { "\(repeat: " ", indent)\($0)" }.joined(separator: "\n")
+    }.joined(separator: ",\n")
   }
 
 }
