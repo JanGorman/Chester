@@ -7,7 +7,18 @@
 [![License](https://img.shields.io/cocoapods/l/Chester.svg?style=flat)](http://cocoapods.org/pods/Chester)
 [![Platform](https://img.shields.io/cocoapods/p/Chester.svg?style=flat)](http://cocoapods.org/pods/Chester)
 
-Note that Chester is work in progress and it's functionality is still very limited.
+## Experimental: @functionBuilder support
+
+`@functionBuilder` seems like a natural match for this kind of task. There's a separate `GraphQLBuilderTests` test suite that shows the supported cases. In it's basic form you can construct a query like this:
+
+```swift
+import Chester
+
+let query = GraphQLQuery {
+  From("posts")
+  Fields("id", "title")
+}
+```
 
 ## Usage
 

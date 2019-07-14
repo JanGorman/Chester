@@ -45,11 +45,14 @@ public struct SubQuery: Component {
   public var components: [String] = []
 
   public init(@GraphQLBuilder builder: () -> String) {
-    // LMAO
+    // YOLO
     let query = builder()
     let sanitized = query.filter { !$0.isWhitespace }
     let from = String(sanitized.split(separator: "{")[0])
-    let fields = sanitized.filter{ $0 != "}" }.split(separator: "{")[1].split(separator: ",").map { String($0) }
+    let fields = sanitized.filter{ $0 != "}" }
+      .split(separator: "{")[1]
+      .split(separator: ",")
+      .map { String($0) }
 
     self.string = from
     self.components = fields
