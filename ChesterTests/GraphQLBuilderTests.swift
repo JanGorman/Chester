@@ -79,4 +79,79 @@ class GraphQLBuilderTests: XCTestCase {
     XCTAssertEqual(expectation, query)
   }
 
+  func testQueryArgsWithDictionary() throws {
+    let query = GraphQLQuery {
+      From("posts")
+      Arguments(
+        Argument(key: "id", value: 4),
+        Argument(key: "filter", value: [["author": ["Chester"]], ["author": "Iskander"], ["books": 1]])
+      )
+      Fields("id", "title")
+    }
+
+    let expectation = try TestHelper().loadExpectationForTest(#function)
+
+    XCTAssertEqual(expectation, query)
+  }
+
+  func testQueryWithMultipleRootFields() throws {
+    let query = GraphQLQuery {
+      From("posts")
+        .fields("id", "title")
+      From("comments")
+        .fields("body")
+    }
+
+    let expectation = try TestHelper().loadExpectationForTest(#function)
+
+    XCTAssertEqual(expectation, query)
+  }
+
+  // Compiler error: 'Int' is not convertible to 'Any' – yes it is
+//  func testQueryWithMultipleRootFieldsAndArgs() throws {
+//    let query = GraphQLQuery {
+//      From("posts")
+//        .fields("id", "title")
+//        .arguments(Argument(key: "id", value: 5))
+//      From("comments")
+//        .fields("body")
+//        .arguments(Argument(key: "author", value: "Chester"), Argument(key: "limit", value: 10))
+//    }
+//
+//    let expectation = try TestHelper().loadExpectationForTest(#function)
+//
+//    XCTAssertEqual(expectation, query)
+//  }
+
+  func testQueryOn() throws {
+    let query = GraphQLQuery {
+      From("search")
+      Arguments(
+        Argument(key: "text", value: "an")
+      )
+      On("Human", "Droid")
+      Fields("name")
+    }
+
+    let expectation = try TestHelper().loadExpectationForTest(#function)
+
+    XCTAssertEqual(expectation, query)
+  }
+
+  func testQueryOnWithTypename() throws {
+    let query = GraphQLQuery {
+      From("search")
+      Arguments(
+        Argument(key: "text", value: "an")
+      )
+      On("Human", "Droid")
+        .withTypeName()
+      Fields("name")
+    }
+
+    let expectation = try TestHelper().loadExpectationForTest(#function)
+
+    XCTAssertEqual(expectation, query)
+  }
+
 }

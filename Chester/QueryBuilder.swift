@@ -135,6 +135,12 @@ public final class QueryBuilder {
     queries[0].with(onCollections: collections)
     return self
   }
+
+  @discardableResult
+  func on(collections: [String]) -> Self {
+    queries[0].with(onCollections: collections)
+    return self
+  }
   
   /// Query for the meta field __typename
   public func withTypename() -> Self {

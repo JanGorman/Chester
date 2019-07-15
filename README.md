@@ -37,6 +37,9 @@ let query = GraphQLQuery {
 }
 ```
 
+### Known Issues
+- Queries with multiple root fields and arguments produce a compiler error (e.g. `'Int' is not convertible to 'Any'`)
+
 ## Usage
 
 Chester uses the builder pattern to construct GraphQL queries. In its basic form use it like this:
