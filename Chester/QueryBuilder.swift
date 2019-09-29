@@ -185,7 +185,7 @@ private class QueryStringBuilder {
   }
   
   private func joinCollections(current: Int, count: Int) -> String {
-    return current == count - 1 ? "" : ",\n"
+    current == count - 1 ? "" : ",\n"
   }
 
 }

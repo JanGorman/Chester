@@ -83,11 +83,11 @@ public struct From: Component {
   }
 
   public func fields(_ fields: String...) -> Component {
-    return From(string: string, components: fields, arguments: nil)
+    From(string: string, components: fields, arguments: nil)
   }
 
   public func arguments(_ arguments: Argument...) -> Component {
-    return From(string: string, components: components, arguments: arguments)
+    From(string: string, components: components, arguments: arguments)
   }
 
 }
@@ -132,7 +132,7 @@ public struct On: Component {
   }
 
   public func withTypeName() -> Component {
-    return On(string: "x", components: components)
+    On(string: "x", components: components)
   }
 
 }

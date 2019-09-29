@@ -13,7 +13,7 @@ struct GraphQLEscapedString: LosslessStringConvertible {
   }
 
   var description: String {
-    return value
+    value
   }
 
 }
