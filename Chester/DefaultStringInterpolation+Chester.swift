@@ -13,7 +13,7 @@ struct GraphQLEscapedString: LosslessStringConvertible {
   }
 
   var description: String {
-    return value
+    value
   }
 
 }
@@ -51,7 +51,9 @@ extension DefaultStringInterpolation {
   }
 
   /// Escape strings according to https://facebook.github.io/graphql/#sec-String-Value
-  private func escape(string input: String) -> String{
+  /// - Parameter input: The string to escape
+  /// - Returns: The escaped string
+  private func escape(string input: String) -> String {
     var output = ""
     for scalar in input.unicodeScalars {
       switch scalar {

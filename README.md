@@ -7,7 +7,38 @@
 [![License](https://img.shields.io/cocoapods/l/Chester.svg?style=flat)](http://cocoapods.org/pods/Chester)
 [![Platform](https://img.shields.io/cocoapods/p/Chester.svg?style=flat)](http://cocoapods.org/pods/Chester)
 
-Note that Chester is work in progress and it's functionality is still very limited.
+## Experimental: @functionBuilder support
+
+`@functionBuilder` seems like a natural match for this kind of task. There's a separate `GraphQLBuilderTests` test suite that shows the supported cases. In it's basic form you can construct a query like this:
+
+```swift
+import Chester
+
+let query = GraphQLQuery {
+  From("posts")
+  Fields("id", "title")
+}
+```
+
+Nested queries can be defined in their logical order now:
+
+```swift
+let query = GraphQLQuery {
+  From("posts")
+  Fields("id", "title")
+  SubQuery {
+    From("comments")
+    Fields("body")
+    SubQuery {
+      From("author")
+      Fields("firstname")
+    }
+  }
+}
+```
+
+### Known Issues
+- Queries with multiple root fields and arguments produce a compiler error (e.g. `'Int' is not convertible to 'Any'`)
 
 ## Usage
 
