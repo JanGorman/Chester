@@ -15,13 +15,13 @@ public struct GraphQLBuilder {
 
   public static func buildBlock(_ components: Component...) -> String {
     let from = components.filter { $0 is From }
-    let arguments = components.filter { $0 is Arguments }.flatMap { $0.components }
+    let arguments = components.filter { $0 is Arguments }.flatMap(\.components)
     let subQueries = components.filter { $0 is SubQuery }
     let onCollections = components.filter { $0 is On }
 
     let queryBuilder = QueryBuilder()
     if from.count == 1 {
-      let fields = components.filter { $0 is Fields }.flatMap { $0.components }
+      let fields = components.filter { $0 is Fields }.flatMap(\.components)
       try! queryBuilder.from(from[0].string).with(fields: fields)
     } else {
       for f in from {
@@ -36,7 +36,7 @@ public struct GraphQLBuilder {
       try! queryBuilder.with(literalSubQuery: subQueries[0].string)
     }
     if !onCollections.isEmpty {
-      queryBuilder.on(collections: onCollections.flatMap { $0.components })
+      queryBuilder.on(collections: onCollections.flatMap(\.components))
       if !onCollections[0].string.isEmpty {
         _ = queryBuilder.withTypename()
       }

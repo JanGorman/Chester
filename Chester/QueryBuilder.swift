@@ -59,7 +59,7 @@ public final class QueryBuilder {
       query.with(arguments: arguments)
     }
     if let subQueries = subQueries {
-      query.with(subQueries: subQueries.flatMap{ $0.queries })
+      query.with(subQueries: subQueries.flatMap(\.queries))
     }
     self.queries.append(query)
     return self
