@@ -48,7 +48,7 @@ public struct GraphQLBuilder {
 }
 
 public func GraphQLQuery(@GraphQLBuilder builder: () -> String) -> String {
-  return builder()
+  builder()
 }
 
 public struct SubQuery: Component {

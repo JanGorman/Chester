@@ -107,7 +107,7 @@ class GraphQLBuilderTests: XCTestCase {
     XCTAssertEqual(expectation, query)
   }
 
-  // Compiler error: 'Int' is not convertible to 'Any' – yes it is
+  // Compiler error: Cannot call value of non-function type '[Argument]?'
 //  func testQueryWithMultipleRootFieldsAndArgs() throws {
 //    let query = GraphQLQuery {
 //      From("posts")
