@@ -8,7 +8,11 @@ final class TestHelper {
 
   func loadExpectationForTest(_ test: String) throws -> String {
     let resource = testNameByRemovingParentheses(test)
+    #if SWIFT_PACKAGE
+    let url = Bundle.module.url(forResource: resource, withExtension: "json")!
+    #else
     let url = Bundle(for: type(of: self)).url(forResource: resource, withExtension: "json")!
+    #endif
     let contents = try String(contentsOf: url)
     return contents.trimmingCharacters(in: .whitespacesAndNewlines)
   }
