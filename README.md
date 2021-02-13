@@ -2,6 +2,7 @@
 
 ![CI](https://github.com/JanGorman/Chester/workflows/CI/badge.svg)
 [![codecov.io](https://codecov.io/github/JanGorman/Chester/coverage.svg?branch=master)](https://codecov.io/github/JanGorman/Chester?branch=master)
+[![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen)](https://swift.org/package-manager/)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/Chester.svg?style=flat)](http://cocoapods.org/pods/Chester)
 [![License](https://img.shields.io/cocoapods/l/Chester.svg?style=flat)](http://cocoapods.org/pods/Chester)
@@ -113,7 +114,7 @@ Or add the following line to Package.swift:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/JanGorman/Chester.git", from: "0.11.0")
+    .package(url: "https://github.com/JanGorman/Chester.git", from: "0.13.0")
 ]
 ```
 
