@@ -107,6 +107,16 @@ Or [Carthage](https://github.com/Carthage/Carthage). Add Chester to your Cartfil
 
     github "JanGorman/Chester"
 
+Or [Swift Package Manager](https://swift.org/package-manager/). To install it, 
+simply go to File > Swift Package > Add Swift Package Dependency and add "https://github.com/JanGorman/Chester.git" as Swift Package URL.
+Or add the following line to Package.swift:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/JanGorman/Chester.git", from: "0.11.0")
+]
+```
+
 ## Author
 
 [Jan Gorman](https://twitter.com/JanGorman)
