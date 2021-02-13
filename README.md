@@ -114,7 +114,7 @@ Or add the following line to Package.swift:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/JanGorman/Chester.git", from: "0.13.0")
+    .package(url: "https://github.com/JanGorman/Chester.git", from: "0.14.0")
 ]
 ```
 
