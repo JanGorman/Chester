@@ -25,7 +25,7 @@ public struct Argument {
     if let value = value as? String, let escaped = GraphQLEscapedString(value) {
       return "\(key): \(escaped)"
     } else if let value = value as? [String: Any] {
-      return "\(GraphQLEscapedDictionary(value))"
+      return "\(key): \(GraphQLEscapedDictionary(value))"
     } else if let value = value as? [Any] {
       return "\(key): \(GraphQLEscapedArray(value))"
     }
