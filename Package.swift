@@ -15,12 +15,14 @@ let package = Package(
         .target(
             name: "Chester",
             dependencies: [],
-            path: "Chester"
+            path: "Chester",
+            exclude: ["Info.plist"]
         ),
         .testTarget(
             name: "ChesterTests",
             dependencies: ["Chester"],
             path: "ChesterTests",
+            exclude: ["Info.plist"],
             resources: [
                 .copy("testQueryArgs.json"),
                 .copy("testQueryArgsWithDictionary.json"),
