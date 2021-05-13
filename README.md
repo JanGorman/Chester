@@ -10,7 +10,7 @@
 
 ## Sort of Experimental: @resultBuilder Support
 
-`@resultBuilder` seems like a natural match for this kind of task. There's a separate `GraphQLBuilderTests` test suite that shows the supported cases. In it's basic form you can construct a query like this:
+`@resultBuilder` seems like a natural match for this kind of task. There's a separate `GraphQLBuilderTests` test suite that shows the supported cases. In its basic form you can construct a query like this:
 
 ```swift
 import Chester
