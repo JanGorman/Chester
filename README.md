@@ -8,9 +8,9 @@
 [![License](https://img.shields.io/cocoapods/l/Chester.svg?style=flat)](http://cocoapods.org/pods/Chester)
 [![Platform](https://img.shields.io/cocoapods/p/Chester.svg?style=flat)](http://cocoapods.org/pods/Chester)
 
-## Experimental: @functionBuilder support
+## Sort of Experimental: @resultBuilder Support
 
-`@functionBuilder` seems like a natural match for this kind of task. There's a separate `GraphQLBuilderTests` test suite that shows the supported cases. In it's basic form you can construct a query like this:
+`@resultBuilder` seems like a natural match for this kind of task. There's a separate `GraphQLBuilderTests` test suite that shows the supported cases. In it's basic form you can construct a query like this:
 
 ```swift
 import Chester
@@ -39,6 +39,7 @@ let query = GraphQLQuery {
 ```
 
 ### Known Issues
+
 - Queries with multiple root fields and arguments produce a compiler error (e.g. `'Int' is not convertible to 'Any'`)
 
 ## Usage
@@ -93,20 +94,24 @@ Check the included unit tests for further examples.
 
 ## Requirements
 
-* Swift 5
-* Xcode 10.2+
-* iOS 8
+- Swift 5
+- Xcode 12.5+
+- iOS 8
 
 ## Installation
 
 Chester is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
-    pod "Chester"
+```ruby
+pod "Chester"
+```
 
 Or [Carthage](https://github.com/Carthage/Carthage). Add Chester to your Cartfile:
 
-    github "JanGorman/Chester"
+```ogdl
+github "JanGorman/Chester"
+```
 
 Or [Swift Package Manager](https://swift.org/package-manager/). To install it, 
 simply go to File > Swift Package > Add Swift Package Dependency and add "https://github.com/JanGorman/Chester.git" as Swift Package URL.

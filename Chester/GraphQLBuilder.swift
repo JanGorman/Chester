@@ -10,7 +10,7 @@ public protocol Component {
   var arguments: [Argument]? { get }
 }
 
-@_functionBuilder
+@resultBuilder
 public struct GraphQLBuilder {
 
   public static func buildBlock(_ components: Component...) -> String {
